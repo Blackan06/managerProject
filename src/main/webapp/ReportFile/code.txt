@@ -1,0 +1,236 @@
+
+@Controller
+public class LoginController {
+	@Autowired
+	LoginDAO loginDao ;
+	private ModelAndView mv = new ModelAndView() ;
+	
+	@RequestMapping(value = {"/", "/login"})
+	public String getLoginPage(Model model) {
+		model.addAttribute("account", new Account());
+		return "login" ;
+	}
+	@RequestMapping(path = "/login" , method = RequestMethod.POST )
+	public String show(Model model , @ModelAttribute(value = "account") Account account) {
+		String loginFlag = loginDao.validateUser(account.getMail(), account.getPassword()) ;
+		System.out.println( "loginFlag :"+ loginFlag);
+		System.out.println( "getid :"+ account.getId());
+		if(account.getMail().equals(loginFlag)) {
+			model.addAttribute("message" , "thanh cong") ;	
+			return "user/student" ;	
+		}else 
+			model.addAttribute("message" ,"failed") ;
+		return "login" ;
+	}
+}
+
+
+
+@Repository
+public class LoginDAO {
+	@Autowired
+	JdbcTemplate jdbcTemplate ;
+	
+
+	
+	public String validateUser(String mail , String password) {
+		  try {
+		String  id = jdbcTemplate.queryForObject("SELECT mail from account WHERE mail = ? AND password = ?"
+				, String.class , mail, password) ;
+		
+		if(mail.length() > 0) {
+			return mail;
+		}
+		  } catch (EmptyResultDataAccessException e) {
+		     System.out.println("No record found in database  ");
+		     
+		    }
+	      return "";
+	}
+}
+
+
+package BaoCaoDoAn.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import BaoCaoDoAn.Dao.User;
+import BaoCaoDoAn.Entity.Account;
+import BaoCaoDoAn.Service.User.AccountServiceImpl;
+
+@Controller
+public class AccountController {
+	
+private ModelAndView _mvShare = new  ModelAndView();
+	
+	@RequestMapping(value = "/dang-nhap" , method = RequestMethod.POST)
+	public ModelAndView Login (@ModelAttribute("user") Account Account) {
+		_mvShare.setViewName();
+	}
+	
+	@Autowired
+	AccountServiceImpl inforService ;
+	@RequestMapping(value = {"/student"})
+	public ModelAndView info () {
+
+		_mvShare.setViewName("user/student");
+		_mvShare.addObject("info" , inforService.getStudentInfo());
+		return _mvShare ;
+	}
+	
+	@RequestMapping(value = {"/teacher"}) 
+	public ModelAndView infoTeacher () {
+	
+		_mvShare.setViewName("user/teacher");
+		_mvShare.addObject("infoTeacher" , inforService.getTeacherInfo());
+		return _mvShare ;
+	}
+
+}
+
+
+<!-- 
+	<form:form method="POST" action="dang-nhap" modelAttribute="account">
+		<form:input path="mail" type="text" />
+
+		<br>
+		<form:input path="password" type="password" />
+
+		<input type="submit" value="Submit" />
+		<div style="color: red">${error}</div>
+
+
+	</form:form>
+ -->
+
+
+
+
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-12 col-sm-8 col-lg-6">
+			<!-- Section Heading-->
+			<div class="section_heading text-center wow fadeInUp"
+				data-wow-delay="0.2s"
+				style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+				<h1>${ status }</h1>
+				<c:if test="${ not empty inforAccount }">
+				
+					<h1>${ inforAccount.id }</h1>
+					<h1>${ inforAccount.name }</h1>
+					<h1>${ inforAccount.mail }</h1>
+					<h1>${ inforAccount.role }</h1>
+					<h1>Group_id :${ inforAccount.group_id } </h1>
+					
+				<h1 style="color: red"><a href='<c:url value="dang-nhap/project/byGroupID/${ inforAccount.group_id }"></c:url>'>My Project</a></h1>
+					<h1 style="color: red"><a href='<c:url value="dang-nhap/reportSchedule/byAccountID/${ inforAccount.id }"></c:url>'>Report Schedule</a></h1>
+				</c:if>
+				
+
+				
+
+				<p>Appland is completely creative, lightweight, clean &amp;
+					super responsive app landing page.</p>
+				<div class="line"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<!-- Single Advisor-->
+
+		<!-- Single Advisor-->
+		<div class="col-12 col-sm-6 col-lg-3">
+			<div class="single_advisor_profile wow fadeInUp"
+				data-wow-delay="0.3s"
+				style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+				<!-- Team Thumb-->
+				<div class="advisor_thumb">
+					<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+						alt="">
+					<!-- Social Info-->
+					<div class="social-info">
+						<a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i
+							class="fa fa-twitter"></i></a><a href="#"><i
+							class="fa fa-linkedin"></i></a>
+					</div>
+				</div>
+				<!-- Team Details-->
+				<div class="single_advisor_details_info">
+					<h6>Nazrul Islam</h6>
+					<p class="designation">UI Designer</p>
+				</div>
+			</div>
+		</div>
+		<!-- Single Advisor-->
+
+		<!-- Single Advisor-->
+
+	</div>
+</div>
+
+
+
+	public Account GetUserByAccount(Account account) {
+		try {
+			 String mail = account.getMail() ;
+			 String pass = account.getPassword() ;
+			 System.out.println(pass);
+		        if (pass.isEmpty()) {
+		         pass = account.setPassword("1111111111111");
+		         System.out.println("set password: " +pass);
+		        } 
+		        if(mail.isEmpty()) {
+		        	mail = account.setMail("@");
+			         System.out.println("set mail: " +pass);
+		        }
+		String sql = "Select * from account where mail = '"+mail+"' and password =  "+pass+" " ;
+		
+		Account result =  jdbcTemplate.queryForObject(sql, new MapperAccount()) ;
+		if(result != null) {
+			return result ;	
+		}
+		}catch (EmptyResultDataAccessException e ) {
+			
+		     return null;
+		}
+		return null ;	
+	}
+
+
+
+	
+		int count = accountService.AddAccount(account) ;
+		
+		if(count ==  1 && account.getName() != "") {
+			mv.addObject("statusRegister" , "Đăng Kí thành Công") ;
+			mv.addObject("hihi", accountService.AddAccount(account) ) ;
+		}else {
+			mv.addObject("statusRegister" , "Đăng Kí thất bại") ;
+		}
+		
+		mv.setViewName("/registrationpage");
+		return mv;
+
+
+
+	public int AddAccount(Account account) {
+//		account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12))) ;
+		String name = account.getName();
+		String mail = account.getMail();
+		int groupid = account.getGroup_id();
+	
+		
+		
+		if(name != "" && mail != ""  ) {
+			return 1;
+		}
+		
+		return 2;
+	}
+
+}

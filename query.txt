@@ -1,0 +1,6 @@
+SELECT * FROM `account` WHERE mail = 'dangnlhse141070@fpt.edu.vn' and password = '123'
+
+SELECT role from account WHERE mail = 'admin@fpt.edu.vn' AND password = 123
+
+SELECT role from account WHERE mail = 'admin@fpt.edu.vn' AND password = 123
+SELECT  role from account WHERE mail = 'giaovien@fpt.edu.vn' AND password = 123

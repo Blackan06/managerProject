@@ -1,0 +1,16 @@
+1) Loi datetime schedule report admin ,
+2) chua edit lai ngay time Submit truoc time Create  ben admin
+
+3) Project_ID: edit schedule meeting van quay project Id lai gias tri dau
+
+4) Group : view project Incorrect result size: expected 1, actual 3
+
+5)Loi project 2 thang khong duoc vao 1 group ben admin
+
+6) teacher 4 project ben admin
+ 
+7) 1 group 4 student ben admin
+
+8) Student : 1 hoc sinh trong 1 nhom , 1 nhom 1 project
+
+9) Teacher: 1 giao vien nhan 4 do an
