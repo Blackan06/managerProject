@@ -13,7 +13,7 @@ public group_Account_Project mapRow(ResultSet rs, int rowNum) throws SQLExceptio
 	gap.setId( rs.getInt("id"));
 
 	gap.setProject_name(rs.getString("project_name"));
-	gap.setUrlProject(rs.getString("urlProject"));
+
 	gap.setCreateTime(rs.getDate("createTime"));
 	gap.setGroup_id(rs.getInt("group_id"));
 	gap.setTeacherId(rs.getInt("teacher_id"));

@@ -55,7 +55,7 @@
 										<tr>
 											<!--  	<th>Code</th> -->
 											<th>Name</th>
-											<th>URL</th>
+
 											<th>Time Create</th>
 											<th>Group Name</th>
 											<th>Teacher Name</th>
@@ -72,7 +72,7 @@
 												<!-- 	<td>${ item.id }</td> -->
 
 												<td>${ item.project_name }</td>
-												<td><a href="${ item.urlProject }">URL</a></td>
+
 												<td>${ item.createTime }</td>
 												<%-- <td>${ item.group_name  }</td>
 												<td>${ item.account_name }</td> --%>

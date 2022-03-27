@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,15 +10,10 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Add Group</title>
+<title>View Student</title>
 <!-- Custom fonts for this template-->
 <%@include file="/WEB-INF/views/admin/linkheader.jsp"%>
-<style>
-.error {
-	color: red;
-	font-size: 1rem;
-}
-</style>
+<!-- Custom styles for this template-->
 </head>
 
 <body id="page-top">
@@ -37,43 +31,55 @@
 			<div id="content">
 				<!-- Topbar -->
 				<%@include file="/WEB-INF/views/admin/header.jsp"%>
+				<!-- End of Topbar -->
 
+				<!-- Begin Page Content -->
+				<!-- /.container-fluid -->
 
 				<div class="container-fluid">
-					<div class="row justify-content-center">
-						<div class="col-sm-8">
-							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h4 style="text-align: center;"
-										class="m-0 font-weight-bold text-primary">Add Group</h4>
-								</div>
-
-								<div style="margin: 30px 200px">
-										
-										<form:form action="AddGroup" method="POST"  modelAttribute="group4">
-										<form:hidden path="id"/> 
-
-										<label for="name" class="mb-2 mr-sm-2">Name</label>
-										<br>
-										
-										<form:input path="name" type="text"
-											class="form-control mb-2 mr-sm-2" name='txtName'/>
-										
-										<form:errors path="name" cssClass="error" />
-										<br>
-										<button type="submit" class="btn btn-primary mb-2">Submit</button>
-
-									</form:form>
-									<h1></h1>
-
-								</div>
-
-							</div>
-
-						</div>
-
-					</div>
 					<!-- DataTales Example -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h4 class="m-0 font-weight-bold text-primary">Student List</h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-striped" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
+										<tr>
+											<th>.NO</th>
+											<!-- <th>ID</th> -->
+											<th>Name</th>
+											<th>Mail</th>
+											<th>Role</th>
+											<!-- 	<th>GroupID</th> -->
+											<!-- 		<th>Action</th> -->
+										</tr>
+									</thead>
+
+									<tbody>
+										<c:forEach var="item" items="${ Group2 }" varStatus="counter">
+											<c:if test="${not empty item }" />
+											<tr>
+												<td>${counter.index + 1 }</td>
+												<%-- <td>${ item.id }</td> --%>
+												<td>${ item.name }</td>
+												<td>${ item.mail }</td>
+												<td>${ item.role }</td>
+												<%-- <td>${ item.group_id }</td> --%>
+
+												<%-- 	<td><a
+													href='<c:url value="/editAccount?id=${item.id}"></c:url>'
+													class="btn btn-success btn-circle btn-sm"><i
+														class="fas fa-edit"></i> </a></td> --%>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 
 				</div>
 
@@ -105,4 +111,3 @@
 </body>
 
 </html>
-

@@ -55,7 +55,7 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<a class="nav-link" href="AddGroup" style="font-size: 18px;">
+								<a class="nav-link" href="addGroup" style="font-size: 18px;">
 									<i class="fa fa-plus-square"></i> <span>Add group</span>
 								</a>
 
@@ -84,10 +84,10 @@
 												<td><a
 													href='<c:url value="group/${ items.id }"></c:url>'>ViewStudent</a></td>
 												<td><a
-													href='<c:url value="/editgroup?id=${items.id}"></c:url>'
+													href='<c:url value="/editgroup/${items.id}"></c:url>'
 													class="btn btn-success btn-circle btn-sm"><i
 														class="fas fa-edit"></i> </a> <a
-													href='<c:url value="/deleteGroup?id=${items.id}"></c:url>'
+													href='<c:url value="/deleteGroup/${items.id}"></c:url>'
 													class="btn btn-danger btn-circle btn-sm"> <i
 														class="fas fa-trash"></i>
 												</a></td>

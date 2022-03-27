@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,13 +61,12 @@ public class GroupController {
 		list = groupServiceImpl.GetDataGroup(id);
 
 		if (!list.isEmpty()) {
-			mv.setViewName("/user/group");
+			mv.setViewName("/admin/adminMemberGroup");
 			mv.addObject("Group2", groupServiceImpl.GetDataGroup(id));
-		} else if(list.isEmpty()){
-		
-		
-			mv.addObject("statusGroupOfStudent" , "List group  is empty") ;
-		
+		} else if (list.isEmpty()) {
+
+			mv.addObject("statusGroupOfStudent", "List group  is empty");
+
 			return new ModelAndView("redirect:/ListGroup");
 
 		}
@@ -105,26 +105,25 @@ public class GroupController {
 
 	@RequestMapping(value = "/Project/{id}")
 	public ModelAndView group(@PathVariable int id, Project project) {
-		mv.setViewName("/user/project");
+		mv.setViewName("/admin/adminGroup_viewProject");
 		List<Project> list = new ArrayList<Project>();
 		Project projectTemp = groupServiceImpl.GetProjectByGroupID(id);
-		
+
 		System.out.println(projectTemp);
-		if(projectTemp == null ) {
+		if (projectTemp == null) {
 			System.out.println("FAIL PRoject" + projectTemp);
-			mv.addObject("statusGroupOfStudent" , "Group has not project ") ;
+			mv.addObject("statusGroupOfStudent", "Group has not project ");
 			return new ModelAndView("redirect:/ListGroup");
 
-		}else {
+		} else {
 			System.out.println("FAIL PRoject" + projectTemp);
 			list.add(projectTemp);
 
-			mv.setViewName("/user/project");
+			mv.setViewName("/admin/adminGroup_viewProject");
 			mv.addObject("getAllProject", groupServiceImpl.GetProjectByGroupID(id));
 
 			mv.addObject("getAllProject", projectTemp);
 		}
-		
 
 		return mv;
 	}
@@ -199,56 +198,117 @@ public class GroupController {
 
 	}
 
-	@RequestMapping(value = "/deleteGroup", method = RequestMethod.GET)
-	public String deleteGroup(@RequestParam Integer id) {
+	@RequestMapping(value = "/deleteGroup/{id}", method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable("id") int id) {
 		groupServiceImpl.deleteGroup(id);
 		return "redirect:/ListGroup";
 	}
 
-	@RequestMapping(value = "/AddGroup", method = RequestMethod.GET)
-	public String doGetAddGroup(Model model) {
-		if (!model.containsAttribute("group4")) {
-			model.addAttribute("group4", new Group());
+	@RequestMapping(value = "/addGroup", method = RequestMethod.GET)
+	public ModelAndView doGetAddGroup(Model model, HttpSession session) {
+
+		mv.addObject("group4", new Group());
+		mv.setViewName("/admin/adminAddGroup");
+		List<Group> nameGroupAdd = new ArrayList<Group>();
+		nameGroupAdd = groupDAO.getGroupAdmin();
+		for (Group group2 : nameGroupAdd) {
+			String name = group2.getName();
+			System.out.println("name group in database : " + name);
+
+			session.setAttribute("groupNameADDCurrent", name);
+
 		}
-		return "/user/AddGroup";
+		return mv;
 	}
 
-	@RequestMapping(value = "/AddGroup", method = RequestMethod.POST)
-	public String doPostAddGroup(@Valid @ModelAttribute("group4") Group group, BindingResult result) {
+	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
+	public ModelAndView doPostAddGroup(@Valid @ModelAttribute("group4") Group group, BindingResult result,
+			HttpSession session) {
+
+
+		String GroupNameAdd = group.getName();
+		System.out.println("GroupNameAdd " + GroupNameAdd);
 
 		if (result.hasErrors()) {
-			return "/user/AddGroup";
-		}
-		List<Group> list = new ArrayList<Group>();
-		list = groupServiceImpl.getGroupAdmin();
-		for (Group group2 : list) {
-			if(group2.getName().equals(group.getName())) {
-				return "/user/AddGroup";
+			mv.setViewName("/admin/adminAddGroup");
+		} else {
+			List<Group> listGroup = new ArrayList<Group>();
+			listGroup = groupDAO.getGroupAdmin();
+			Boolean flag = true;
+			for (Group group2 : listGroup) {
+				String name = group2.getName();
+
+				if (GroupNameAdd.equals(name)) {
+					flag = false;
+					System.out.println(flag);
+					mv.setViewName("/admin/adminAddGroup");
+					return mv;
+
+				}
+
 			}
-			
-		}
-		
-		if (group.getId() == 0) {
 			groupServiceImpl.addGroup(group);
-		} else if (group.getId() > 0) {
-			groupServiceImpl.updateGroup(group);
+			return new ModelAndView("redirect:/ListGroup");
 		}
 
-		return "redirect:/ListGroup";
-
+		return mv;
 	}
 
-	@RequestMapping(value = "/editgroup", method = RequestMethod.GET)
-	public ModelAndView editGroup(HttpServletRequest request) {
-		Integer id = Integer.parseInt(request.getParameter("id"));
+	@RequestMapping(value = "/editGroup", method = RequestMethod.POST)
+	public ModelAndView editGroup(@Valid @ModelAttribute("group4") Group group, BindingResult result,
+			HttpSession session) {
+		int countGroupName = groupDAO.CountGroupNameAdmin(group.getName());
+		System.out.println("count GroupName :" + countGroupName);
+
+		Object groupNameCurrent = session.getAttribute("groupNameCurrent");
+		String GroupNameCompare = groupNameCurrent.toString();
+		System.out.println("GroupNameCompare " + GroupNameCompare);
+
+		String GroupNameEdit = group.getName();
+		System.out.println("GroupNameEdit " + GroupNameEdit);
+
+		System.out.println("-------------------------");
+		if (result.hasErrors()) {
+			mv.setViewName("/admin/adminAddGroup");
+		} else {
+
+			if (countGroupName >= 1 && GroupNameCompare.equals(GroupNameEdit)) {
+//					mv.setViewName("/admin/adminAddGroup");
+				groupServiceImpl.updateGroup(group);
+				return new ModelAndView("redirect:/ListGroup");
+			} else if (countGroupName == 0 && !GroupNameCompare.equals(GroupNameEdit)) {
+				groupServiceImpl.updateGroup(group);
+				return new ModelAndView("redirect:/ListGroup");
+			}
+
+		}
+
+		return mv;
+	}
+
+	@GetMapping(value = "/editgroup/{id}")
+	public ModelAndView editGroup(@PathVariable("id") int id, HttpSession session) {
 
 		Group group = groupServiceImpl.findGroupById(id);
 
-		ModelAndView model = new ModelAndView("/user/AddGroup");
+//		int countGroupName = groupDAO.CountGroupNameAdmin(group.getName());
+//		System.out.println("number  group in database " + countGroupName);
 
-		model.addObject("group4", group);
+		List<Group> nameGroup = new ArrayList<Group>();
+		nameGroup = groupDAO.GetGroup_Name(id);
+		for (Group group2 : nameGroup) {
+			String name = group2.getName();
+			System.out.println("name group in form : " + name);
 
-		return model;
+			session.setAttribute("groupNameCurrent", name);
+
+		}
+
+		mv.setViewName("/admin/adminEditGroup");
+
+		mv.addObject("group4", group);
+
+		return mv;
 	}
 
 }

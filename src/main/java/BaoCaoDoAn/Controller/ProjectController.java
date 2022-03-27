@@ -70,7 +70,7 @@ public class ProjectController {
 		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		mv.addObject("TIMENOW", date);
 
-		mv.addObject("teacher", accountDao.getTeacherAdmin());
+		mv.addObject("teacher", accountDao.getTeacherByAdmin());
 		mv.addObject("groups", groupServiceImpl.getGroupAdmin());
 		mv.addObject("getAllProject", projectService.getAllProject());
 		mv.setViewName("/admin/addProject");
@@ -83,29 +83,31 @@ public class ProjectController {
 
 		int groupId = project.getGroup_id();
 		int countGroupId = projectService.getCountGroupId(groupId);
-
+		System.out.println("check group  count project " + countGroupId);
+		
 		int teacherId = project.getTeacherId();
 		int countTeacherId = projectService.getCountTeacherId(teacherId);
-
+		System.out.println("check techer count project " + countTeacherId);
 		if (bindingResult.hasErrors()) {
 			mv.setViewName("/admin/addProject");
 
-		} else if (countGroupId >= 1) {
-
-			mv.addObject("ValidationProject_Group", "The group currently has a project");
-
-			mv.setViewName("/admin/addProject");
-		} else if (countTeacherId > 4) {
-
-			mv.addObject("ValidationProject_Teacher", "Teachers have enough guidance groups. (biggest 4)");
-			mv.setViewName("/admin/addProject");
-
 		} else {
+			if (countGroupId >= 1) {
 
-			projectService.addProject(project);
-			mv.addObject("ValidationProject_Group", "");
-			mv.addObject("ValidationProject_Teacher", "");
-			return new ModelAndView("redirect:/AdminProject");
+				mv.addObject("ValidationProject_Group", "The group currently has a project");
+
+				mv.setViewName("/admin/addProject");
+			} else if (countTeacherId >= 2) {
+
+				mv.addObject("ValidationProject_Teacher", "Teachers have enough guidance groups. (biggest 4)");
+				mv.setViewName("/admin/addProject");
+
+			} else {
+				projectService.addProject(project);
+				mv.addObject("ValidationProject_Group", "");
+				mv.addObject("ValidationProject_Teacher", "");
+				return new ModelAndView("redirect:/AdminProject");
+			}
 		}
 
 		return mv;
@@ -113,41 +115,77 @@ public class ProjectController {
 	}
 
 	@GetMapping(value = "/editProject/{id}")
-	public ModelAndView getEditProject(@PathVariable("id") int id) {
+	public ModelAndView getEditProject(@PathVariable("id") int id, HttpSession session) {
+		Project project = projectService.getProjectById(id);
+
+		System.out.println("get Group Id current :" + project.getGroup_id());
+		session.setAttribute("GroupIdcurrent", project.getGroup_id());
+
+		System.out.println("Teacher id :" + project.getTeacherId());
+		session.setAttribute("TeacheridCurent", project.getTeacherId());
+
 		mv.addObject("project", projectService.getProjectById(id));
 		mv.setViewName("/admin/editProject");
-		mv.addObject("teachers", accountDao.getTeacherAdmin());
+
 		mv.addObject("groups", groupServiceImpl.getGroupAdmin());
+		mv.addObject("teacher", accountDao.getTeacherByAdmin());
 		return mv;
 
 	}
 
 	@PostMapping(value = "/editProject")
-	public ModelAndView edit(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult) {
+	public ModelAndView edit(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
+			HttpSession session) {
 		int groupId = project.getGroup_id();
 		int countGroupId = projectService.getCountGroupId(groupId);
 
 		int teacherId = project.getTeacherId();
 		int countTeacherId = projectService.getCountTeacherId(teacherId);
-		System.out.println(project.getId());
-		System.out.println(project.getName());
-		System.out.println(project.getUrlProject());
-		System.out.println(project.getCreateTime());
-		System.out.println(project.getGroup_id());
-		System.out.println(project.getTeacherId());
+
+		System.out.println("count Teacher havce project " + countTeacherId);
+
+		int countTeacherHaveProject = projectDao.getCountTeacherId(project.getTeacherId());
+		System.out.println("countTeacherHaveProject " + countTeacherHaveProject);
+
+		System.out.println("teacher id new edit " + project.getTeacherId());
+
+		Object GroupIdcurrent = session.getAttribute("GroupIdcurrent");
+		String GroupidCompare = GroupIdcurrent.toString();
+		String groupIdEdit = String.valueOf(project.getGroup_id());
+		
+		Object TeacherIdcurrent = session.getAttribute("TeacheridCurent");
+		String TeacherIdCompare = TeacherIdcurrent.toString();
+		String TeacherIdEdit = String.valueOf(project.getTeacherId());
+
+		System.out.println(TeacherIdCompare.equals(TeacherIdEdit));
 
 		if (bindingResult.hasErrors()) {
 
 			mv.setViewName("/admin/editProject");
-		} else if (countGroupId >= 1 ) {
-
-			mv.addObject("ValidationProject_Group", "The group currently has a project");
-
-			mv.setViewName("/admin/editProject");
 		} else {
-			projectService.editProject(project.getId(), project);
-			return new ModelAndView("redirect:/AdminProject");
+			if (countGroupId >= 1 && !GroupidCompare.equals(groupIdEdit)) {
+				mv.addObject("ValidationProject_Group", "The group currently has a project");
 
+				mv.setViewName("/admin/editProject");
+			}
+
+			else if (countTeacherId >= 2 && !TeacherIdCompare.equals(TeacherIdEdit)) {
+				mv.setViewName("/admin/editProject");
+			} else if (countTeacherHaveProject >= 2 && TeacherIdCompare.equals(TeacherIdEdit)) {
+				projectService.editProject(project.getId(), project);
+				return new ModelAndView("redirect:/AdminProject");
+			}
+
+			else if (countGroupId >= 1 && GroupidCompare.equals(groupIdEdit)) {
+
+				mv.addObject("ValidationProject_Group", "");
+				projectService.editProject(project.getId(), project);
+				return new ModelAndView("redirect:/AdminProject");
+			} else {
+				projectService.editProject(project.getId(), project);
+				mv.addObject("ValidationProject_Group", "");
+				return new ModelAndView("redirect:/AdminProject");
+			}
 		}
 
 		return mv;

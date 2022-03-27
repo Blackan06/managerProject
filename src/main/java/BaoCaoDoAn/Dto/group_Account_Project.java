@@ -5,7 +5,7 @@ import java.sql.Date;
 public class group_Account_Project {
 	private int id;
 	private String project_name;
-	private String urlProject;
+
 	private Date createTime;
 	private int group_id;
 	private int teacherId;
@@ -23,12 +23,7 @@ public class group_Account_Project {
 	public void setProject_name(String project_name) {
 		this.project_name = project_name;
 	}
-	public String getUrlProject() {
-		return urlProject;
-	}
-	public void setUrlProject(String urlProject) {
-		this.urlProject = urlProject;
-	}
+	
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -60,12 +55,12 @@ public class group_Account_Project {
 		this.account_name = account_name;
 	}
 	
-	public group_Account_Project(int id, String project_name, String urlProject, Date createTime, int group_id,
+	public group_Account_Project(int id, String project_name, Date createTime, int group_id,
 			int teacherId, String group_name, String account_name) {
 		super();
 		this.id = id;
 		this.project_name = project_name;
-		this.urlProject = urlProject;
+	
 		this.createTime = createTime;
 		this.group_id = group_id;
 		this.teacherId = teacherId;

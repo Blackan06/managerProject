@@ -56,25 +56,20 @@
 										<br>
 
 
-										<label for="email2" class="mb-2 mr-sm-2">UrL Porject</label>
-										<br>
-										<form:input path="urlProject" type="text"
-											class="form-control mb-2 mr-sm-2" />
-										<br>
 
 
 										<label for="email2" class="mb-2 mr-sm-2">Time Create </label>
 										<br>
-										 <form:input path="createTime" type="date"
+										<form:input path="createTime" type="date"
 											class="form-control mb-2 mr-sm-2" />
 										<br>
 
-									
+
 										<label for="email2" class="mb-2 mr-sm-2">Group : ${ project.group_id }
 										</label>
 										<br>
 
-										<form:select path="id" class="form-control mb-2 mr-sm-2">
+										<form:select path="group_id" class="form-control mb-2 mr-sm-2">
 											<form:options items="${groups}" itemValue="id"
 												itemLabel="name" />
 										</form:select>
@@ -88,7 +83,7 @@
 										<br>
 										<form:select path="teacherId"
 											class="form-control mb-2 mr-sm-2">
-											<form:options items="${teachers}" itemValue="id"
+											<form:options items="${teacher}" itemValue="id"
 												itemLabel="name" />
 										</form:select>
 
