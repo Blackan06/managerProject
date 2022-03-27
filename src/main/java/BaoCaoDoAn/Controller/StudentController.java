@@ -73,11 +73,11 @@ public class StudentController {
 	public ModelAndView editAdmin(HttpServletRequest request) {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		Account account = studentService.getAccountId(id);
+		mv.addObject("emailExist","email has been already exists!");
 
 		ModelAndView model = new ModelAndView("/admin/editAccount");
 
 		model.addObject("roleAccount", accountDao.getTeacherAdmin());
-
 		model.addObject("studentAcc1", account);
 		model.addObject("leader", accountDao.getLeaderStudentAdmin());
 		model.addObject("groups", groupServiceImpl.getGroupAdmin());
@@ -95,6 +95,7 @@ public class StudentController {
 		listGener.add("Male");
 		listGener.add("Female");
 		model.addObject("listGener", listGener);
+
 		return model;
 	}
 
@@ -115,6 +116,9 @@ public class StudentController {
 		mv.addObject("groups", groupServiceImpl.getGroupAdmin());
 		mv.addObject("getAllStudent", studentService.getAccountList());
 		mv.addObject("emailExist", "");
+		mv.addObject("groupExist", "");
+		mv.addObject("errorTeacher", "");
+		mv.addObject("errorleader", "");
 		return mv;
 	}
 
@@ -123,67 +127,86 @@ public class StudentController {
 		int isEmailExist = studentService.isEmailExist(account.getMail());
 		mv.addObject("groups", groupServiceImpl.getGroupAdmin());
 		mv.addObject("emailExist", "");
+		mv.addObject("groupExist", "");
+		mv.addObject("errorTeacher", "");
+		mv.addObject("errorleader", "");
 		int checkleader = studentDao.checkLeader(true, account.getGroup_id());
 		int group_id = studentDao.checkgroup_id(account.getGroup_id());
 		int checkTeacher = studentDao.checkTeacher(account.getRole(), account.getGroup_id());
-
-		System.out.println(" memeber group" + group_id);
+		System.out.println(" memeber group : " + group_id);
 
 		if (result.hasErrors()) {
 			mv.setViewName("/admin/addAccount");
 		} else {
 			if (account.getId() == 0) {
+				System.out.println("test 1");
 
 				if (isEmailExist >= 1) {
-					mv.addObject("errormail", "email has been already exists!");
-					if (group_id >= 5) {
-						mv.addObject("errorGroup", "group full memmember!");
-						if (checkTeacher >= 1 && account.getRole().equals("teacher")) {
-							mv.addObject("errorTecher", "techer full group!");
-
-							if (checkleader >= 1 && account.getIsLeader() == true) {
-								mv.addObject("errorleader", "leader full group!");
-							}
-						}
-					}
-
-					
-					return new ModelAndView("redirect:/addAccountStudent");
+					System.out.println("test 2");
+					mv.addObject("emailExist", "email has been already exists!");
+					System.out.println("test 6");
+					mv.setViewName("/admin/addAccount");
+				}
+				if (group_id >= 5) {
+					System.out.println("test 3");
+					mv.addObject("groupExist", "group full memmember!");
+					System.out.println("test 6");
+					mv.setViewName("/admin/addAccount");
+				}
+				if (checkTeacher >= 1 && account.getRole().equals("teacher")) {
+					System.out.println("test 4");
+					mv.addObject("errorTeacher", "teacher full group!");
+					System.out.println("test 6");
+					mv.setViewName("/admin/addAccount");
+				}
+				if (checkleader >= 1 && account.getIsLeader() == true) {
+					mv.addObject("errorleader", "leader full group!");
+					System.out.println("test 5");
+					System.out.println("test 6");
+					mv.setViewName("/admin/addAccount");
 				}
 
-				else if (isEmailExist <= 0 && group_id < 5 && checkTeacher >= 1 && account.getRole().equals("student")
-						&& checkleader >= 1 && account.getIsLeader() == false) {
+				else {
 					studentService.addAccount(account);
-
+					System.out.println("test 7");
 					return new ModelAndView("redirect:/studentList");
 				}
-			//Edit
+
+				// Edit
 			} else if (account.getId() > 0) {
-				if (isEmailExist > 1) {
+				System.out.println("test cc1");
+				if (isEmailExist >= 1 && !studentDao.get(account.getId()).getMail().equals(account.getMail())) {
+					System.out.println("test cc2 ");
+					mv.addObject("emailExist", "group full memmember!");
 
-					if (group_id > 5) {
-						mv.addObject("errorGroup", "group full memmember!");
-						if (checkTeacher >= 1 && account.getRole().equals("teacher")) {
-							mv.addObject("errorTecher", "techer full group!");
+					return new ModelAndView("redirect:/editStudentAccount?id=" + account.getId());
+				}
+				if (group_id >= 5 && studentDao.get(account.getId()).getGroup_id() != account.getGroup_id()) {
+					mv.addObject("groupExist", "group full memmember!");
 
-							if (checkleader >= 1 && account.getIsLeader() == true) {
-								mv.addObject("errorleader", "leader full group!");
-							}
-						}
-					}
-
-					return new ModelAndView("redirect:/editStudentAccount?id="+account.getId());
+					return new ModelAndView("redirect:/editStudentAccount?id=" + account.getId());
+				}
+				if (checkTeacher >= 1 && account.getRole().equals("teacher")) {
+					mv.addObject("errorTeacher", "teacher full group!");
+					return new ModelAndView("redirect:/editStudentAccount?id=" + account.getId());
+				}
+				if (checkleader >= 1 && account.getIsLeader() == true
+						&& studentDao.get(account.getId()).getIsLeader() != account.getIsLeader()) {
+					mv.addObject("errorleader", "leader full group!");
+					System.out.println("group " + account.getGroup_id());
+					System.out.println("test cc3 ");
+					return new ModelAndView("redirect:/editStudentAccount?id=" + account.getId());
 				}
 
-				else if (isEmailExist <= 1 && group_id <= 5 && checkTeacher >= 1 && account.getRole().equals("student")
-						&& checkleader >= 1 && account.getIsLeader() == false) {
+				else {
+					System.out.println("test ccc");
 					studentService.updateAccount(account);
-
 					return new ModelAndView("redirect:/studentList");
 				}
 
 			}
 		}
+		System.out.println("test 8");
 		return mv;
 
 	}

@@ -132,6 +132,14 @@ public class StudentDAO {
 		return result;
 
 	}
+	public Account getMail(String mail) {
+
+		String sql = "SELECT * FROM account WHERE mail = '" + mail + "'" ;
+		Account result = _jdbcTemplate.queryForObject(sql, new MapperAccount());
+
+		return result;
+
+	}
 
 	public Group FindAccountaccount_name(String name) {
 		String sql = "SELECT * FROM `account` WHERE account_name LIKE \"?%\" " + name;

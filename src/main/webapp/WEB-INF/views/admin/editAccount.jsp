@@ -48,7 +48,7 @@
 										class="m-0 font-weight-bold text-primary">Student Account
 										Details</h4>
 								</div>
-								
+
 								<div style="margin: 30px 200px">
 									<form:form action="addAccountStudent" method="POST"
 										modelAttribute="studentAcc1">
@@ -71,6 +71,7 @@
 										<div class="">
 											<!-- Simple link -->
 											<span style="color: red">${ emailExist }</span>
+
 
 										</div>
 
@@ -99,9 +100,13 @@
 										<form:select path="group_id" class="form-control mb-2 mr-sm-2">
 											<form:options items="${groups}" itemValue="id"
 												itemLabel="name" />
-											<span style="color: red">${ groupExist }</span>
 										</form:select>
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ groupExist }</span>
 
+
+										</div>
 
 										<br>
 
@@ -114,8 +119,13 @@
 
 										<form:select path="role" class="form-control mb-2 mr-sm-2"
 											items="${listRole}" />
+										<%-- <div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorTeacher }</span>
 
 
+										</div>
+ --%>
 
 
 										<%--  <form:select path="role"
@@ -133,6 +143,12 @@
 
 										<form:select path="isLeader" class="form-control mb-2 mr-sm-2"
 											items="${listLeader}" />
+										<%-- <div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorleader }</span>
+
+
+										</div> --%>
 										<br>
 										<!-- 
 										<form:input path="isLeader" class="form-control mb-2 mr-sm-2" />
@@ -141,13 +157,13 @@
 										<br>
 										<label for="email2" class="mb-2 mr-sm-2">Gender:</label>
 										<br>
-											<form:select path="gender" class="form-control mb-2 mr-sm-2"
+										<form:select path="gender" class="form-control mb-2 mr-sm-2"
 											items="${listGener}" />
 
+											
 
-										
 										<br>
-										
+
 
 										<form:errors path="gender" cssClass="error" />
 										<br>

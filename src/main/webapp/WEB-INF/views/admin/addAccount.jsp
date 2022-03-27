@@ -71,7 +71,7 @@
 										<div class="">
 											<!-- Simple link -->
 											<span style="color: red">${ emailExist }</span>
-											
+
 										</div>
 
 										<form:errors path="mail" cssClass="error" />
@@ -99,9 +99,13 @@
 										<form:select path="group_id" class="form-control mb-2 mr-sm-2">
 											<form:options items="${groups}" itemValue="id"
 												itemLabel="name" />
-												<span style="color: red">${ groupExist }</span>
+			
 										</form:select>
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ groupExist }</span>
 
+										</div>
 
 										<br>
 
@@ -112,12 +116,17 @@
 										<br>
 										<label for="role" class="mb-2 mr-sm-2">Role:</label>
 
-									 	
-										  <form:select path="role"
-											class="btn dropdown-toggle">
-											<option  value="student">Student</option>
-											<option  value="teacher">Teacher</option>
+
+										<form:select path="role" class="btn dropdown-toggle">
+											<option value="student">Student</option>
+											<option value="teacher">Teacher</option>
+
 										</form:select>
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorTeacher }</span>
+
+										</div>
 										<br>
 										<br>
 
@@ -126,7 +135,15 @@
 										<form:select path="isLeader" class="btn  dropdown-toggle">
 											<option items="${ item.isLeader }" value="True">True</option>
 											<option items="${ item.isLeader }" value="False">False</option>
+											
+											
 										</form:select>
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorleader }</span>
+
+										</div>
+										
 
 										<br>
 										<!-- 
