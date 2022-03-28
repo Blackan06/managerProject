@@ -272,11 +272,11 @@ public class GroupController {
 			mv.setViewName("/admin/adminAddGroup");
 		} else {
 
-			if (countGroupName >= 1 && GroupNameCompare.equals(GroupNameEdit)) {
+			if (countGroupName >= 1 && GroupNameCompare.equalsIgnoreCase(GroupNameEdit)) {
 //					mv.setViewName("/admin/adminAddGroup");
 				groupServiceImpl.updateGroup(group);
 				return new ModelAndView("redirect:/ListGroup");
-			} else if (countGroupName == 0 && !GroupNameCompare.equals(GroupNameEdit)) {
+			} else if (countGroupName == 0 && !GroupNameCompare.equalsIgnoreCase(GroupNameEdit)) {
 				groupServiceImpl.updateGroup(group);
 				return new ModelAndView("redirect:/ListGroup");
 			}

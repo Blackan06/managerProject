@@ -9,6 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import BaoCaoDoAn.Dto.MapperReport_Project_Group;
+import BaoCaoDoAn.Dto.Report_Project_Group;
 import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Entity.MapperReport;
 import BaoCaoDoAn.Entity.PointDetail;
@@ -45,6 +47,17 @@ public class ReportDAO {
 		List<Report> list = new ArrayList<Report>();
 		String sql = "Select * from report  ORDER BY project_id;";
 		list = jdbcTemplate.query(sql, new MapperReport());
+		return list;
+
+	}
+	
+	public List<Report_Project_Group> getAllReportWithProject_Group() {
+		List<Report_Project_Group> list = new ArrayList<Report_Project_Group>();
+		String sql = "SELECT  report.id ,  report.name , report.point ,  report.comment,report.timeCreate ,  project.project_name  , group_student.group_name \r\n" + 
+				"FROM `report` , `project` ,`group_student` \r\n" + 
+				"WHERE \r\n" + 
+				"report.project_id = project.id   and project.group_id = group_student.id ;";
+		list = jdbcTemplate.query(sql, new MapperReport_Project_Group());
 		return list;
 
 	}

@@ -8,6 +8,22 @@
 
 <body style="overflow: visible;">
 
+
+	<%-- 	<c:if test="${pointDetails == null}">
+		<c:set var="message" value="${message}" />
+	<c:if test="${message!=''}">
+	
+		<script type="text/javascript">
+			var Msg = "chua có diem";
+			window.alert(Msg);
+		
+		</script>
+	
+
+	</c:if>
+	</c:if>
+ --%>
+
 	<div class="header" th:fragment="headerfrag">
 		<!-- -----------------HEADER-------------------- -->
 		<%@include file="/WEB-INF/views/user/student/header.jsp"%>
@@ -25,8 +41,10 @@
 	<div class="main-panel">
 		<div class="content-wrapper">
 			<div class="row">
-
-				<h1>Your Point : ${pointDetails.point}</h1>
+			
+				<br> <br>
+				
+			<h1>Your Point : ${pointDetails.point}</h1>
 
 
 			</div>
