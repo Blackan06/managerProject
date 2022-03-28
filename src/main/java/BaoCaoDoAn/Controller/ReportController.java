@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -32,12 +33,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import BaoCaoDoAn.Dao.ReportDAO;
 import BaoCaoDoAn.Dao.StudentDAO;
+import BaoCaoDoAn.Dto.Report_Project_Group;
 import BaoCaoDoAn.Dto.group_Account_Project;
 import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Entity.Group;
 import BaoCaoDoAn.Entity.PointDetail;
 import BaoCaoDoAn.Entity.Project;
 import BaoCaoDoAn.Entity.Report;
+import BaoCaoDoAn.Export.ExcelListReportView;
+import BaoCaoDoAn.Export.PdfListReportView;
 import BaoCaoDoAn.Service.User.Impl.AccountServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ProjectServiceImpl;
@@ -127,16 +131,25 @@ public class ReportController {
 	}
 
 	@RequestMapping("/viewPointDetails/{id}")
-	public ModelAndView getViewPoint(@PathVariable int id, HttpSession session, HttpServletRequest request) {
+	public ModelAndView getViewPoint(@PathVariable int id, HttpSession session, HttpServletRequest request,
+			RedirectAttributes redirAttr) {
 		Account student = (Account) session.getAttribute("InforAccount");
 		PointDetail pointDetails = reportDAO.StudentGetPoint(id, student.getId());
-
-		if (pointDetails == null) {
-				
 		
-			mv.setViewName("/user/student/studentreport");
-		} else {
+		if (pointDetails == null) {
+				System.out.println(pointDetails);
+				mv.addObject("mess", "chua có diem ");
+//			redirAttr.addFlashAttribute("message","You successfully uploaded ");
+				mv.setViewName("/user/student/studentreport");
+			
+			
+		
+
+		} else if(pointDetails != null){
+			System.out.println(pointDetails);
+			mv.addObject("mess", "");
 			mv.setViewName("/user/student/viewPointDetails");
+			
 			mv.addObject("pointDetails", pointDetails);
 		}
 
@@ -179,7 +192,6 @@ public class ReportController {
 			pointDetail.setReportId(reportId);
 			pointDetail.setStudentId(studentId);
 			pointDetail.setTeacherId(teacher.getId());
-
 			mv.addObject("student", student);
 			mv.addObject("pointDetail", pointDetail);
 			mv.addObject("report", report);
@@ -335,10 +347,13 @@ public class ReportController {
 	}
 
 	@RequestMapping("/getReport")
-	public ModelAndView getAllReport() {
+	public ModelAndView getAllReport(HttpServletRequest req, HttpServletResponse res) {
 		mv.setViewName("/admin/adminReport");
+		String typeReport = req.getParameter("type");
 
 		List<Report> reportList = reportService.getAllReport();
+		List<Report_Project_Group> exportList = reportDAO.getAllReportWithProject_Group();
+
 		// load project object for each report
 		for (Report rp : reportList) {
 			Project projet = projectSerivce.getProjectById(rp.getProject_id());
@@ -347,6 +362,11 @@ public class ReportController {
 		}
 
 		mv.addObject("getAllReport", reportList);
+		if (typeReport != null && typeReport.equals("xls")) {
+			return new ModelAndView(new ExcelListReportView(), "userList", exportList);
+		} else if (typeReport != null && typeReport.equals("pdf")) {
+			return new ModelAndView(new PdfListReportView(), "userList", exportList);
+		}
 		return mv;
 	}
 

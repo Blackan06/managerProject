@@ -45,7 +45,8 @@
 				<!-- Topbar -->
 				<%@include file="/WEB-INF/views/admin/header.jsp"%>
 
-
+				
+				
 				<div class="container-fluid">
 					<div class="row justify-content-center">
 						<div class="col-sm-8">
@@ -67,13 +68,8 @@
 										<form:errors path="name" cssClass="error" />
 										<br>
 
-										<label for="email2" class="mb-2 mr-sm-2">UrL Project</label>
-										<br>
-										<form:input path="urlProject" type="text"
-											class="form-control mb-2 mr-sm-2" />
 
-										<form:errors path="urlProject" cssClass="error" />
-										<br>
+
 										<label h for="email2" class="mb-2 mr-sm-2">Time Create
 											: ${ TIMENOW } </label>
 										<br>
@@ -101,7 +97,7 @@
 
 										<form:select path="teacherId"
 											class="form-control mb-2 mr-sm-2">
-											<form:options items="${teachers}" itemValue="id"
+											<form:options items="${teacher}" itemValue="id"
 												itemLabel="name" />
 										</form:select>
 

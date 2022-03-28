@@ -16,7 +16,7 @@ public class Project {
 	
 	@NotNull(message = " Url name is empty")
 //	@Pattern(regexp = "[a-zA-Z ]{1,100}", message = " Url name is empty")
-	private String urlProject;
+
 
 	private Date createTime;
 	private int group_id;
@@ -44,12 +44,12 @@ public class Project {
 		super();
 	}
 
-	public Project(int id, String name, String urlProject, Date createTime, int group_id, int teacherId,
+	public Project(int id, String name, Date createTime, int group_id, int teacherId,
 			List<ScheduleMeeting> scheduleMeeting) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.urlProject = urlProject;
+	
 		this.createTime = createTime;
 		this.group_id = group_id;
 		this.teacherId = teacherId;
@@ -72,13 +72,6 @@ public class Project {
 		this.name = name;
 	}
 
-	public String getUrlProject() {
-		return urlProject;
-	}
-
-	public void setUrlProject(String urlProject) {
-		this.urlProject = urlProject;
-	}
 
 	public Date getCreateTime() {
 		return createTime;

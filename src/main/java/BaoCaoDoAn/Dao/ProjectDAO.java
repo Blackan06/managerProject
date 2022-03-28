@@ -44,7 +44,7 @@ public class ProjectDAO {
 	
 	public List<group_Account_Project> getAllProject() {
 		List<group_Account_Project> list = new ArrayList<group_Account_Project>();
-		String sql = "SELECT p.id , p.project_name , p.urlProject  , p.createTime  ,p.group_id , p.teacher_id , g.group_name , a.account_name\r\n" + 
+		String sql = "SELECT p.id , p.project_name   , p.createTime  ,p.group_id , p.teacher_id , g.group_name , a.account_name\r\n" + 
 				"			FROM project AS p\r\n" + 
 				"			INNER JOIN \r\n" + 
 				"			account AS a \r\n" + 
@@ -73,10 +73,10 @@ public class ProjectDAO {
 	}
 	public int addProject(Project project) {
 
-		String sql = "INSERT INTO project (project_name,urlProject,createTime,group_id, teacher_id) VALUES (?,?,?,?,?)" ;
+		String sql = "INSERT INTO project (project_name,createTime,group_id, teacher_id) VALUES (?,?,?,?)" ;
 		
 		int count  = jdbcTemplate.update(sql , new Object[] {
-				project.getName() , project.getUrlProject() ,project.getCreateTime(), project.getGroup_id() ,project.getTeacherId()
+				project.getName() ,project.getCreateTime(), project.getGroup_id() ,project.getTeacherId()
 		}) ; 		
 		return count;
 	}
@@ -84,27 +84,14 @@ public class ProjectDAO {
 	
 	public int editProject(int id , Project project) {
 		
-		String sql ="UPDATE project SET project_name = ?, urlProject = ? , createTime = ? , group_Id = ? , teacher_id = ? WHERE id = ?";	
+		String sql ="UPDATE project SET project_name = ? , createTime = ? , group_id = ? , teacher_id = ? WHERE id = ?";	
 
-		int count = jdbcTemplate.update(sql,  new Object[] {project.getName() , project.getUrlProject() , project.getCreateTime(),
+		int count = jdbcTemplate.update(sql,  new Object[] {project.getName() , project.getCreateTime(),
 				project.getGroup_id() , project.getTeacherId(), id }) ; 		
 		return count;
 	}
 	
-//	public void updateAndSave (Project project) {
-//		if(project.getId() > 0) {
-//			String sql ="UPDATE project SET project_name = '?', urlProject = '?' , createTime = '?' , group_Id = ? , teacher_id = ? WHERE id = ?";
-//		 jdbcTemplate.update(sql.toString() , project.getName() , project.getUrlProject() , project.getCreateTime(),
-//					project.getGroup_id() , project.getTeacherId(), project.getId() ) ; 
-//			
-//		}
-//		else {
-//			String sql = "INSERT INTO project (project_name,urlProject,createTime,group_id, teacher_id) VALUES('?','?','?',?,?)" ;
-//			jdbcTemplate.update(sql, project.getName() , project.getUrlProject() , project.getCreateTime(),
-//					project.getGroup_id() , project.getTeacherId(), project.getId()) ; 		
-//		}
-//	}
-	
+
 	
 	
 	
@@ -138,6 +125,8 @@ public class ProjectDAO {
 		result = jdbcTemplate.queryForObject(sql, Integer.class);
 		return result;
 	}
+	
+
 	
 	public int getCountTeacherId(int teacherId) {
 		int result =-1;

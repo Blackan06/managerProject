@@ -86,7 +86,14 @@ public class AccountDAO {
 //	
 //}																																															
 
+	public List<Account> getTeacherByAdmin() {
+		List<Account> listTeacher = new ArrayList<Account>();
+		String sql = "SELECT  * FROM `account` WHERE not role = 'admin' AND not role = 'student' ";
 
+		listTeacher = jdbcTemplate.query(sql, new MapperAccount());
+		return listTeacher;
+	}
+	
 	public List<Account> getTeacherAdmin() {
 		List<Account> listTeacher = new ArrayList<Account>();
 		String sql = "SELECT  * FROM `account` WHERE not role = 'admin' ";

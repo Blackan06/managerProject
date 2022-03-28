@@ -69,6 +69,20 @@ public class GroupDAO {
 		return listGroup;
 	}
 
+	public int CountGroupNameAdmin(String groupName) {
+		int result = -1;
+		String sql = "SELECT COUNT(group_name) FROM `group_student` WHERE group_name =  '" + groupName + "' ";
+		result = _jdbcTemplate.queryForObject(sql, Integer.class);
+		return result;
+	}
+
+	public List<Group> GetGroup_Name(int id) {
+		List<Group> listGroup = new ArrayList<Group>();
+		String sql = "SELECT * FROM group_student where id = " + id;
+		listGroup = _jdbcTemplate.query(sql, new MapperGroup());
+		return listGroup;
+	}
+
 	public int addAccountInGroup(Group group) {
 		String sql = "INSERT INTO group_student (`id`, `group_name`) VALUES (?,?)";
 		int count = _jdbcTemplate.update(sql, new Object[] { group.getId(), group.getName() });
@@ -113,14 +127,15 @@ public class GroupDAO {
 	}
 
 	public Group getGroupByAccountId(int accountId) {
-		String sql = "SELECT g.*" + "FROM account as a, group_student as g\r\n" + "WHERE a.id ="
-				+ accountId + " and a.group_id = g.id;";
+		String sql = "SELECT g.*" + "FROM account as a, group_student as g\r\n" + "WHERE a.id =" + accountId
+				+ " and a.group_id = g.id;";
 		Group result = _jdbcTemplate.queryForObject(sql, new MapperGroup());
 		return result;
 	}
+
 	public List<Group> CheckName(String name) {
 		List<Group> listGroup = new ArrayList<Group>();
-		String sql  = "Select * From 'group_student' Where 'group_name' = " + name;
+		String sql = "Select * From 'group_student' Where 'group_name' = " + name;
 		listGroup = _jdbcTemplate.query(sql, new MapperGroup());
 		return listGroup;
 	}

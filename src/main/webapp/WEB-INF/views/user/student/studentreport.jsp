@@ -11,7 +11,13 @@
 </head>
 
 <body style="overflow: visible;">
-	<c:set var="message" value="${message}" />
+	<%-- 	<c:set var="message" value="${message}" />
+	<c:if test="${message!=''}">
+		<script type="text/javascript">
+			var Msg = "${message}";
+			window.alert(Msg);
+		</script>
+	</c:if> --%>
 
 	<div class="header" th:fragment="headerfrag">
 		<!-- -----------------HEADER-------------------- -->
@@ -35,7 +41,7 @@
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-
+						<h1>${ mess }</h1>
 						<c:forEach var="project" items="${ listReport }">
 							<c:set var="Report" value="${ project.report }" />
 
@@ -61,7 +67,7 @@
 											<tr>
 												<td>${ item.name }</td>
 
-												<td><a 
+												<td><a
 													href='<c:url value="/viewPointDetails/${ item.id }"/>'>View
 														Point</a></td>
 

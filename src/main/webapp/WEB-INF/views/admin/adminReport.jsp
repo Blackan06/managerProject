@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -48,7 +50,10 @@
 									href='<c:url value="/addReport"></c:url>'> <i
 									class="fa fa-plus-square"></i> <span>Add new report</span>
 								</a>
-
+								<spring:url value="/getReport/?type=xls" var="xlsURL" />
+								<spring:url value="/getReport/?type=pdf" var="pdfURL" />
+								<a href="${xlsURL}">Dowload Exel</a> <br>
+								<%-- 	 <a href="${pdfURL}">Dowload PDF</a> --%>
 								<table class="table table-striped" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
