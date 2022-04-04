@@ -99,7 +99,7 @@
 										<form:select path="group_id" class="form-control mb-2 mr-sm-2">
 											<form:options items="${groups}" itemValue="id"
 												itemLabel="name" />
-			
+
 										</form:select>
 										<div class="">
 											<!-- Simple link -->
@@ -132,18 +132,14 @@
 
 										<label for="email2" class="mb-2 mr-sm-2">Leader:</label>
 										<br>
-										<form:select path="isLeader" class="btn  dropdown-toggle">
-											<option items="${ item.isLeader }" value="True">True</option>
-											<option items="${ item.isLeader }" value="False">False</option>
+										<form:checkbox path="isLeader"/>
 											
-											
-										</form:select>
 										<div class="">
 											<!-- Simple link -->
 											<span style="color: red">${ errorleader }</span>
 
 										</div>
-										
+
 
 										<br>
 										<!-- 

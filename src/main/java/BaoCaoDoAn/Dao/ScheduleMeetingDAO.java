@@ -45,19 +45,25 @@ public class ScheduleMeetingDAO {
 		return list;
 	}
 
-	public List<ScheduleMeeting> GetDataAmin() {
-		List<ScheduleMeeting> list = new ArrayList<ScheduleMeeting>();
-		String sql = "SELECT * FROM schedulemeeting";
-		list = jdbcTemplate.query(sql, new MapperScheduleMeeting());
+	public List<project_scheduleMeeting> GetDataAmin() {
+		List<project_scheduleMeeting> list = new ArrayList<project_scheduleMeeting>();
+		String sql = "SELECT * FROM schedulemeeting as sc , project as p Where sc.project_id = p.id";
+		list = jdbcTemplate.query(sql, new MapperProjectScheduleMeeting());
 		return list;
 	}
 
 	// add
-//	public int save(ScheduleMeeting admin) {
-//		String sql = "INSERT INTO schedulemeeting (timeMeeting,project_id,account_id) VALUES (?,?,?)";
-//		int count = jdbcTemplate.update(sql,new Object[] {admin.getTimeMeeting(),admin.getProject_id(),admin.getAccount_id()});
-//		return count;
-//	}
+	public int save(ScheduleMeeting admin) {
+		String sql = "INSERT INTO schedulemeeting (timeMeeting,project_id,account_id) VALUES (?,?,?)";
+		int count = jdbcTemplate.update(sql,new Object[] {admin.getTimeMeeting(),admin.getProject_id(),admin.getAccount_id()});
+		return count;
+	}
+	public int update(ScheduleMeeting sm) {
+		String sql = "UPDATE schedulemeeting SET timeMeeting=?, project_id=?, account_id=? ,name_scheduleMeeting='?',link_meeting=?,content=?,date_submit=?" + "WHERE id=?";
+		int count = jdbcTemplate.update(sql, sm.getTimeMeeting(), sm.getProject_id(),1,sm.getName(),sm.getLink_meeting(),sm.getContent(),sm.getSubmitDate(),
+				sm.getId());
+		return count;
+	}
 	// delete
 	public void delete(int id) {
 		String sql = "DELETE FROM schedulemeeting WHERE id=?";
@@ -67,7 +73,7 @@ public class ScheduleMeetingDAO {
 	// Update
 	public void updateAndSave(ScheduleMeeting admin) {
 		if (admin.getId() > 0) {
-			String sql = "UPDATE schedulemeeting SET timeMeeting=?, project_id=?, account_id=? ,name_scheduleMeeting=?,link_meeting=?,content=?,date_submit=?" + "WHERE id=?";
+			String sql = "UPDATE schedulemeeting SET timeMeeting=?, project_id=?, account_id=? ,name_scheduleMeeting='?',link_meeting=?,content=?,date_submit=?" + "WHERE id=?";
 			jdbcTemplate.update(sql, admin.getTimeMeeting(), admin.getProject_id(),1,admin.getName(),admin.getLink_meeting(),admin.getContent(),admin.getSubmitDate(),
 					admin.getId());
 		} else {

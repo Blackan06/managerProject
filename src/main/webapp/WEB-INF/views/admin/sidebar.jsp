@@ -26,9 +26,9 @@
 	<li class="nav-item active"><a class="nav-link"
 		href='<c:url value="/getReport"></c:url>'> <i
 			class="fas fa-fw fa-table"></i> <span>Report</span></a></li>
-	<li class="nav-item active"><a class="nav-link"
+	<%-- <li class="nav-item active"><a class="nav-link"
 		href='<c:url value="/ScheduleReport"></c:url>'> <i
-			class="fas fa-fw fa-table"></i> <span>Schedule Report</span></a></li>
+			class="fas fa-fw fa-table"></i> <span>Schedule Report</span></a></li> --%>
 
 	<li class="nav-item active"><a class="nav-link"
 		href='<c:url value="/ScheduleMeeting"></c:url>'> <i

@@ -6,6 +6,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -48,7 +50,7 @@
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 					<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">Student Account Detail</h4>
+							<h4 class="m-0 font-weight-bold text-primary">Account Detail</h4>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -86,7 +88,11 @@
 												<td>${ items.group_name }</td>
 												<td>${ items.phone }</td>
 												<td>${ items.role }</td>
-												<td>${ items.isLeader }</td>
+												<td><c:if test = "${items.isLeader == true}">
+													<i class="fa fa-check" style="font-size:12px;color:green"></i>
+													
+												</c:if>
+												</td>
 												<td>${ items.gender }</td>
 												<td><a
 													href='<c:url value="/editStudentAccount?id=${items.id}"></c:url>'

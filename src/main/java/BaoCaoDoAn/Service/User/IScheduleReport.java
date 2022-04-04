@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import BaoCaoDoAn.Dto.scheduleReport_report;
 import BaoCaoDoAn.Entity.ScheduleReport;
 
 @Service
 public interface IScheduleReport {
 //	@Autowired
 //	public List<ScheduleReport> getScheduleReport(int id) ;
-	@Autowired
-	public List<ScheduleReport> getAllScheduleReport()  ;
+
 		
 
 	@Autowired

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import BaoCaoDoAn.Dto.MapperScheduleReport_report;
+import BaoCaoDoAn.Dto.scheduleReport_report;
 import BaoCaoDoAn.Entity.Group;
 import BaoCaoDoAn.Entity.MapperScheduleMeeting;
 import BaoCaoDoAn.Entity.MapperScheduleReport;
@@ -30,10 +32,10 @@ public class ScheduleReportDAO {
 //	}
 //	
 
-	public List<ScheduleReport> getAllScheduleReport() {
-		List<ScheduleReport> list = new ArrayList<ScheduleReport>();
-		String sql = "Select * from schedulereport";
-		list = jdbcTemplate.query(sql, new MapperScheduleReport());
+	public List<scheduleReport_report> getAllScheduleReport() {
+		List<scheduleReport_report> list = new ArrayList<scheduleReport_report>();
+		String sql = "Select * from schedulereport as sh , report as r , project as p Where sh.report_id = r.id And r.project_id = p.id";
+		list = jdbcTemplate.query(sql, new MapperScheduleReport_report());
 
 		return list;
 	}

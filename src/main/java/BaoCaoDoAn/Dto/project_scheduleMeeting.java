@@ -1,83 +1,153 @@
 package BaoCaoDoAn.Dto;
 
 import java.sql.Date;
+import java.time.LocalTime;
+import java.util.Optional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
+import BaoCaoDoAn.validator.FutureBasedDateSchedule;
+
+@FutureBasedDateSchedule(message = "Deadline must be greater than create time!")
 public class project_scheduleMeeting {
-	
-	private String  name_project ; 
-	private int id_scheduleMeeting ; 
-	private Date timeMeeting ; 
-	private int project_id ; 
-	private int account_id ;
-	private String name_scheduleMeeting ; 
-	private String link_meeting ; 
-	private String  content_scheduleMeeting ;
-	
-	
-	public project_scheduleMeeting() {
-		super();
+	private int id;
+
+	@Pattern(regexp = "[a-zA-Z0-9 ]{1,100}", message = "Name is empty")
+	private String name;
+	private Date timeMeeting;
+	private int project_id;
+	private int account_id;
+
+	/* @Pattern(regexp = "[a-zA-Z ]{1,1000}" , message = "Link is empty") */
+	@NotEmpty(message = "link is empty")
+	private String link_meeting;
+	private String projectName;
+	private String content;
+	private String time;
+	private Date submitDate;
+	private String submitTime;
+	private String messageForSubmitting;
+	private int up;
+
+	public String getMessageForSubmitting() {
+		java.util.Date date = new java.util.Date();
+		Date dateSQL = new Date(date.getTime());
+		if (getSubmitDate() != null) {
+			messageForSubmitting = "You submitted a file";
+			int compareResult = dateSQL.compareTo(getSubmitDate());
+			if (compareResult > 0) {
+				messageForSubmitting = "Out of date, cannot upload";
+			}
+		}
+		return messageForSubmitting;
 	}
-	public project_scheduleMeeting(String name_project, int id_scheduleMeeting, Date timeMeeting, int project_id,
-			int account_id, String name_scheduleMeeting, String link_meeting, String content_scheduleMeeting) {
-		super();
-		this.name_project = name_project;
-		this.id_scheduleMeeting = id_scheduleMeeting;
-		this.timeMeeting = timeMeeting;
-		this.project_id = project_id;
-		this.account_id = account_id;
-		this.name_scheduleMeeting = name_scheduleMeeting;
-		this.link_meeting = link_meeting;
-		this.content_scheduleMeeting = content_scheduleMeeting;
+
+	public void setMessageForSubmitting(String messageForSubmitting) {
+		this.messageForSubmitting = messageForSubmitting;
 	}
-	public String getName_project() {
-		return name_project;
+
+	public String getSubmitTime() {
+		return submitTime;
 	}
-	public void setName_project(String name_project) {
-		this.name_project = name_project;
+
+	public void setSubmitTime(String submitTime) {
+		this.submitTime = submitTime;
 	}
-	public int getId_scheduleMeeting() {
-		return id_scheduleMeeting;
+
+	public Date getSubmitDate() {
+		return submitDate;
 	}
-	public void setId_scheduleMeeting(int id_scheduleMeeting) {
-		this.id_scheduleMeeting = id_scheduleMeeting;
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
 	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+		System.out.println(time);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Date getTimeMeeting() {
 		return timeMeeting;
 	}
+
 	public void setTimeMeeting(Date timeMeeting) {
 		this.timeMeeting = timeMeeting;
 	}
+
 	public int getProject_id() {
 		return project_id;
 	}
+
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
 	}
+
 	public int getAccount_id() {
 		return account_id;
 	}
+
 	public void setAccount_id(int account_id) {
 		this.account_id = account_id;
 	}
-	public String getName_scheduleMeeting() {
-		return name_scheduleMeeting;
-	}
-	public void setName_scheduleMeeting(String name_scheduleMeeting) {
-		this.name_scheduleMeeting = name_scheduleMeeting;
-	}
+
 	public String getLink_meeting() {
 		return link_meeting;
 	}
+
 	public void setLink_meeting(String link_meeting) {
 		this.link_meeting = link_meeting;
 	}
-	public String getContent_scheduleMeeting() {
-		return content_scheduleMeeting;
+
+	public String getContent() {
+		return content;
 	}
-	public void setContent_scheduleMeeting(String content_scheduleMeeting) {
-		this.content_scheduleMeeting = content_scheduleMeeting;
+
+	public void setContent(String content) {
+		this.content = content;
 	}
-	
-	
-	
+
+
+
+	public int getUp() {
+		if (Optional.ofNullable(getContent()).orElse("").isEmpty()) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	public void setUp(int up) {
+		up = up;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 }

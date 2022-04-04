@@ -58,6 +58,7 @@
 											<!-- <th>Id</th> -->
 											<th>Name ScheduleMeeting</th>
 											<th>Project_id</th>
+											<th>Project Name</th>
 											<th>TimeMeeting</th>
 											<th>Date Submit</th>
 
@@ -74,12 +75,13 @@
 												<%-- 	<td>${ item.id }</td> --%>
 												<td>${ item.name }</td>
 												<td>${ item.project_id }</td>
+												<td>${ item.projectName }</td>
 												<td>${ item.timeMeeting }</td>
 												<td>${ item.submitDate }</td>
 
 
 												<td><a href="${ item.link_meeting }">Link Meeting</a></td>
-												<td>${ item.content  }</td>
+												<td><a href="${ item.content  }" download>${ item.content  }</a></td>
 
 												<td><a
 													href='<c:url value="/editScheduleMeeting?id=${ item.id }"></c:url>'

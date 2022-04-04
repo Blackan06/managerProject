@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import BaoCaoDoAn.Dao.ScheduleReportDAO;
+import BaoCaoDoAn.Dto.scheduleReport_report;
 import BaoCaoDoAn.Entity.ScheduleMeeting;
 import BaoCaoDoAn.Entity.ScheduleReport;
 import BaoCaoDoAn.Service.User.IScheduleReport;
@@ -16,9 +17,6 @@ public class ScheduleReportServiceImpl implements IScheduleReport {
 	@Autowired
 	private ScheduleReportDAO scheduleReportDAO;
 
-	public List<ScheduleReport> getAllScheduleReport() {
-		return scheduleReportDAO.getAllScheduleReport();
-	}
 
 	public int addScheduleReport(ScheduleReport scheduleReport) {
 		return scheduleReportDAO.addScheduleReport(scheduleReport);

@@ -141,14 +141,14 @@
 										<br>
 
 
-										<form:select path="isLeader" class="form-control mb-2 mr-sm-2"
-											items="${listLeader}" />
+
 										<%-- <div class="">
 											<!-- Simple link -->
 											<span style="color: red">${ errorleader }</span>
-
-
 										</div> --%>
+
+										<form:checkbox path="isLeader" />
+
 										<br>
 										<!-- 
 										<form:input path="isLeader" class="form-control mb-2 mr-sm-2" />
@@ -160,7 +160,7 @@
 										<form:select path="gender" class="form-control mb-2 mr-sm-2"
 											items="${listGener}" />
 
-											
+
 
 										<br>
 
