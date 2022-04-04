@@ -39,7 +39,7 @@
 		<!-- Nav Item - User Information -->
 		<a class="nav-link" href="#" id="userDropdown" role="button"
 			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<span class="mr-2 d-none d-lg-inline text-white medium">Account_Name</span>
+			<span class="mr-2 d-none d-lg-inline text-white medium">${ InforAccount.name }</span>
 			<img class="img-profile rounded-circle" width="60" height="60"
 			src='<c:url value="/assets/img/undraw_profile.svg" /> '>
 		</a>

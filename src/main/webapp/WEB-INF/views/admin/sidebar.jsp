@@ -32,7 +32,7 @@
 
 	<li class="nav-item active"><a class="nav-link"
 		href='<c:url value="/ScheduleMeeting"></c:url>'> <i
-			class="fas fa-fw fa-table"></i> <span>Schedule Meeting</span></a></li>
+			class="fas fa-fw fa-table"></i> <span>Schedule Meeting</span></a></li> 
 
 	<li class="nav-item active"><a class="nav-link"
 		href='<c:url value="/AdminProject"></c:url>'> <i
