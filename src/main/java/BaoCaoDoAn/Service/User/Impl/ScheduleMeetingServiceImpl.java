@@ -16,9 +16,7 @@ public class ScheduleMeetingServiceImpl implements IScheduleMeetingService {
 	@Autowired
 	private ScheduleMeetingDAO scheduleMeetingDAO;
 
-	public List<ScheduleMeeting> GetDataAdmin() {
-		return scheduleMeetingDAO.GetDataAmin();
-	}
+	
 
 	public List<ScheduleMeeting> GetScheduleMeetingByProjectId(int project_id) {
 		return scheduleMeetingDAO.GetScheduleMeetingByProjectId(project_id);

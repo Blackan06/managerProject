@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import BaoCaoDoAn.Dao.ScheduleMeetingDAO;
+import BaoCaoDoAn.Dto.project_scheduleMeeting;
 import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Entity.Group;
 import BaoCaoDoAn.Entity.Meeting;
@@ -76,12 +77,12 @@ public class ScheduleMeetingController {
 	@RequestMapping(value = "/ScheduleMeeting")
 	public ModelAndView admin(Model model) {
 
-		List<ScheduleMeeting> list = new ArrayList<ScheduleMeeting>();
-		list = scheduleMeetingServiceImpl.GetDataAdmin();
+		List<project_scheduleMeeting> list = new ArrayList<project_scheduleMeeting>();
+		list = scheduleMeetingDAO.GetDataAmin();
 
 		if (list != null) {
 			mv.setViewName("/admin/adminschedulemeeting");
-			mv.addObject("ScheduleMeeting", scheduleMeetingServiceImpl.GetDataAdmin());
+			mv.addObject("ScheduleMeeting", list);
 
 		} else {
 			mv.addObject("ScheduleMeeting", "that bai");
@@ -111,8 +112,8 @@ public class ScheduleMeetingController {
 		if (!model.containsAttribute("ScheduleMeeting2")) {
 			model.addAttribute("ScheduleMeeting2", new ScheduleMeeting());
 		}
-		mv.addObject("getAllProject", projectService.getAllProject());
-		mv.setViewName("/user/ScheduleMeetingFrom");
+		mv.addObject("getAllByProject", projectService.getAllProjectSimple());
+		mv.setViewName("/admin/addScheduleMeeting");
 		mv.addObject("dateError", "");
 		mv.addObject("isDateSubmit", "");
 		return mv;
@@ -121,23 +122,61 @@ public class ScheduleMeetingController {
 	@RequestMapping(value = "/addScheduleMeeting", method = RequestMethod.POST)
 	public ModelAndView doPostAddUser(@Valid @ModelAttribute("ScheduleMeeting2") ScheduleMeeting admin,
 			BindingResult bindingResult) {
-		System.out.println(bindingResult);
+
 		mv.addObject("getAllProject", projectService.getAllProject());
-	
+
 		mv.addObject("dateError", "");
 		mv.addObject("isDateSubmit", "");
 		if (bindingResult.hasErrors()) {
-			mv.setViewName("/user/ScheduleMeetingFrom");
+			mv.setViewName("/admin/addScheduleMeeting");
 			mv.addObject("dateError", "Date have to greater than now!");
-		} else if (admin.getTimeMeeting().after(admin.getSubmitDate())) {
-			mv.setViewName("/user/ScheduleMeetingFrom");
-			mv.addObject("isDateSubmit", "Date submit have to greater than time create!");
-		} else {
-			scheduleMeetingDAO.updateAndSave(admin);
-			return new ModelAndView("redirect:/ScheduleMeeting");
 		}
-		
+
+		else {
+			if (admin.getId() == 0) {
+				if (admin.getTimeMeeting().after(admin.getSubmitDate())) {
+					mv.setViewName("/admin/addScheduleMeeting");
+					mv.addObject("isDateSubmit", "Date submit have to greater than time create!");
+				} else {
+					scheduleMeetingDAO.save(admin);
+					return new ModelAndView("redirect:/ScheduleMeeting");
+				}
+			}
+
+		}
+
 		return mv;
+	}
+
+	@RequestMapping(value = "/editScheduleMeeting", method = RequestMethod.POST)
+	public ModelAndView doPostUpdateUser(@Valid @ModelAttribute("ScheduleMeeting2") ScheduleMeeting ScheduleMeeting,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		mv.addObject("getAllProject", projectService.getAllProject());
+
+		mv.addObject("dateError", "");
+		mv.addObject("isDateSubmit", "");
+		if (bindingResult.hasErrors()) {
+
+			System.out.println("kiet");
+			redirectAttributes.addFlashAttribute("dateError", "Date have to greater than now!");
+			return new ModelAndView("redirect:/editScheduleMeeting?id=" + ScheduleMeeting.getId());
+
+		} else {
+			if (ScheduleMeeting.getId() > 0) {
+
+				if (ScheduleMeeting.getTimeMeeting().after(ScheduleMeeting.getSubmitDate())) {
+					redirectAttributes.addFlashAttribute("isDateSubmit",
+							"Date submit have to greater than time create!");
+					System.out.println("kiet1");
+					return new ModelAndView("redirect:/editScheduleMeeting?id=" + ScheduleMeeting.getId());
+				} else 
+
+					System.out.println("kiet2");
+					scheduleMeetingDAO.update(ScheduleMeeting);
+					return new ModelAndView("redirect:/ScheduleMeeting");
+			}
+		}
+		return new ModelAndView("redirect:/ScheduleMeeting");
 	}
 
 	@RequestMapping(value = "/editScheduleMeeting", method = RequestMethod.GET)
@@ -145,10 +184,10 @@ public class ScheduleMeetingController {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		ScheduleMeeting ScheduleMeeting = scheduleMeetingDAO.get(id);
 
-		ModelAndView mv = new ModelAndView("/user/ScheduleMeetingFrom");
+		ModelAndView mv = new ModelAndView("/admin/ScheduleMeetingFrom");
 
 		mv.addObject("ScheduleMeeting2", ScheduleMeeting);
-		mv.addObject("getAllProject", projectService.getAllProject());
+		mv.addObject("getAllByProject", projectService.getAllProjectSimple());
 
 		return mv;
 	}

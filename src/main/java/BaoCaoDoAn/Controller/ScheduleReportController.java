@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import BaoCaoDoAn.Dao.ProjectDAO;
 import BaoCaoDoAn.Dao.ScheduleReportDAO;
 import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Entity.Group;
@@ -33,7 +34,7 @@ public class ScheduleReportController {
 	@Autowired
 	private ReportServiceImpl reportService;
 	@Autowired
-	private ProjectServiceImpl projectService;
+	private ProjectDAO ProjectDAO;
 	@Autowired
 	private GroupServiceImpl groupService;
 	private ModelAndView mv = new ModelAndView();
@@ -117,7 +118,8 @@ public class ScheduleReportController {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		ScheduleReport scheduleReport = scheduleReportService.getScheduleReport(id);
 
-		ModelAndView mv = new ModelAndView("/user/ScheduleReportFrom");
+		ModelAndView mv = new ModelAndView("/admin/ScheduleReportFrom");
+		mv.addObject("getAllByProject", ProjectDAO.getAllProjectSimple());
 
 		mv.addObject("ScheduleReportUpdateAndInsert", scheduleReport);
 		mv.addObject("getAllReport", reportService.getAllReport());
@@ -131,9 +133,10 @@ public class ScheduleReportController {
 		if (!model.containsAttribute("ScheduleReportUpdateAndInsert")) {
 			model.addAttribute("ScheduleReportUpdateAndInsert", new ScheduleReport());
 		}
+		mv.addObject("getAllByProject", ProjectDAO.getAllProjectSimple());
 
 		mv.addObject("getAllReport", reportService.getAllReport());
-		mv.setViewName("/user/ScheduleReportFrom");
+		mv.setViewName("/admin/addScheduleReport");
 		mv.addObject("dateError", "");
 		mv.addObject("isDateSubmit", "");
 		return mv;
@@ -145,13 +148,23 @@ public class ScheduleReportController {
 			BindingResult result) {
 		mv.addObject("dateError", "");
 		mv.addObject("isDateSubmit", "");
-		if (result.hasErrors()) {
-			mv.setViewName("/user/ScheduleReportFrom");
+		if (result.hasErrors() && ScheduleReport.getId() == 0) {
+			mv.setViewName("/admin/addScheduleReport");
 			mv.addObject("dateError", "Date have to greater than now!");
-		} else if (ScheduleReport.getTimeReport().after(ScheduleReport.getDateSubmit())) {
-			mv.setViewName("/user/ScheduleReportFrom");
+		}else if (result.hasErrors() && ScheduleReport.getId() > 0) {
+			
+			mv.addObject("dateError", "Date have to greater than now!");
+			return new ModelAndView("redirect:/editScheduleReport?id=" + ScheduleReport.getId());
+		}
+		else if (ScheduleReport.getTimeReport().after(ScheduleReport.getDateSubmit()) && ScheduleReport.getId() == 0 ) {
+			mv.setViewName("/admin/addScheduleReport");
 			mv.addObject("isDateSubmit", "Date submit have to greater than time create!");
-		} else {
+		}else if (ScheduleReport.getTimeReport().after(ScheduleReport.getDateSubmit()) && ScheduleReport.getId() > 0 ) {
+		
+			mv.addObject("isDateSubmit", "Date submit have to greater than time create!");
+			return new ModelAndView("redirect:/editScheduleReport?id=" + ScheduleReport.getId());
+		}
+		else {
 			if (ScheduleReport.getId() > 0) {
 				scheduleReportService.updateScheduleRepot(ScheduleReport);
 				return new ModelAndView("redirect:/ScheduleReport");

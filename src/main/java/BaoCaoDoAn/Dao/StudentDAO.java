@@ -190,4 +190,10 @@ public class StudentDAO {
 		result = jdbcTemplate.queryForObject(sql, Integer.class);
 		return result;
 	}
+	public int checkMemberStudentGroup(String role, int id) {
+		int result = -1;
+		String sql = "SELECT COUNT(*) FROM `account` WHERE role = 'student' And group_id = " + id + " ";
+		result = jdbcTemplate.queryForObject(sql, Integer.class);
+		return result;
+	}
 }

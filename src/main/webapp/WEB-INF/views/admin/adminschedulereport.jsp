@@ -53,9 +53,11 @@
 										<tr>
 											<!-- 	<th>Code</th> -->
 											<th>Code Report</th>
+											<th>Name Report</th>
+											<th>Name Project</th>
 											<th>Time Created</th>
-
-
+											
+	
 											<th>Date Submit</th>
 											<th>Action</th>
 										</tr>
@@ -66,6 +68,8 @@
 											<tr>
 												<%-- 	<td>${ item.id }</td> --%>
 												<td>${ item.report_id }</td>
+												<td>${ item.name }</td>
+												<td>${ item.project_name }</td>
 												<td>${ item.timeReport }</td>
 												<%-- <td>${ item.account_id }</td> --%>
 

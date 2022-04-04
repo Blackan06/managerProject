@@ -10,8 +10,7 @@ import BaoCaoDoAn.Entity.Meeting;
 import BaoCaoDoAn.Entity.ScheduleMeeting;
 @Service
 public interface IScheduleMeetingService {
-	@Autowired
-	public List<ScheduleMeeting> GetDataAdmin();
+;
 	
 	@Autowired
 	public List<ScheduleMeeting> GetScheduleMeetingByProjectId(int id);

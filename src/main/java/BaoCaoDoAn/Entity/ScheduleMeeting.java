@@ -22,7 +22,6 @@ public class ScheduleMeeting {
 	/* @Pattern(regexp = "[a-zA-Z ]{1,1000}" , message = "Link is empty") */
 	@NotEmpty(message = "link is empty")
 	private String link_meeting;
-
 	private String content;
 	private String time;
 	private Date submitDate;
@@ -143,5 +142,7 @@ public class ScheduleMeeting {
 	public void setUp(int up) {
 		up = up;
 	}
+
+	
 
 }
