@@ -17,7 +17,13 @@
 </head>
 
 <body id="page-top">
-
+<%-- 	<c:set var="message" value="${message}" />
+	<c:if test="${message!=''}">
+		<script type="text/javascript">
+			var Msg = "${message}";
+			window.alert(Msg);
+		</script>
+	</c:if> --%>
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
@@ -85,8 +91,9 @@
 											class="form-control mb-2 mr-sm-2">
 											<form:options items="${teacher}" itemValue="id"
 												itemLabel="name" />
-										</form:select>
 
+										</form:select>
+									
 
 
 

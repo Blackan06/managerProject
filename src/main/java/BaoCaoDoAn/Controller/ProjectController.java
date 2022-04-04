@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import BaoCaoDoAn.Dao.AccountDAO;
 import BaoCaoDoAn.Dao.ProjectDAO;
@@ -84,7 +85,7 @@ public class ProjectController {
 		int groupId = project.getGroup_id();
 		int countGroupId = projectService.getCountGroupId(groupId);
 		System.out.println("check group  count project " + countGroupId);
-		
+
 		int teacherId = project.getTeacherId();
 		int countTeacherId = projectService.getCountTeacherId(teacherId);
 		System.out.println("check techer count project " + countTeacherId);
@@ -135,7 +136,7 @@ public class ProjectController {
 
 	@PostMapping(value = "/editProject")
 	public ModelAndView edit(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
-			HttpSession session) {
+			HttpSession session,	RedirectAttributes redirAttr , Model model  ) {
 		int groupId = project.getGroup_id();
 		int countGroupId = projectService.getCountGroupId(groupId);
 
@@ -152,13 +153,13 @@ public class ProjectController {
 		Object GroupIdcurrent = session.getAttribute("GroupIdcurrent");
 		String GroupidCompare = GroupIdcurrent.toString();
 		String groupIdEdit = String.valueOf(project.getGroup_id());
-		
+
 		Object TeacherIdcurrent = session.getAttribute("TeacheridCurent");
 		String TeacherIdCompare = TeacherIdcurrent.toString();
 		String TeacherIdEdit = String.valueOf(project.getTeacherId());
 
 		System.out.println(TeacherIdCompare.equals(TeacherIdEdit));
-
+		
 		if (bindingResult.hasErrors()) {
 
 			mv.setViewName("/admin/editProject");
@@ -170,7 +171,10 @@ public class ProjectController {
 			}
 
 			else if (countTeacherId >= 2 && !TeacherIdCompare.equals(TeacherIdEdit)) {
+				/* redirAttr.addFlashAttribute("message", "File Type Not Valid"); */
+				
 				mv.setViewName("/admin/editProject");
+
 			} else if (countTeacherHaveProject >= 2 && TeacherIdCompare.equals(TeacherIdEdit)) {
 				projectService.editProject(project.getId(), project);
 				return new ModelAndView("redirect:/AdminProject");

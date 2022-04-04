@@ -60,6 +60,7 @@ public class ReportController {
 	private ReportDAO reportDAO;
 
 	@Autowired
+	
 	private AccountServiceImpl accountService;
 	private ModelAndView mv = new ModelAndView();
 

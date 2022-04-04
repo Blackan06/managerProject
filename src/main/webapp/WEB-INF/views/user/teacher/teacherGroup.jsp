@@ -33,21 +33,21 @@
 												<thead>
 													<tr>
 														
-														<th>ID</th>
+													 <th>ID</th> 
 														<th>Name</th>
 														<th>Mail</th>
 														<th>Role</th>
-														<th>GroupID</th>
+													<!-- 	<th>GroupID</th> -->
 													</tr>
 												</thead>
 												<tbody>
 												<c:forEach var="item" items="${account}">
 													<tr>														
-														<td>${ item.id }</td>
+													<td>${ item.id }</td> 
 														<td>${ item.name }</td>
 														<td>${ item.mail }</td>
 														<td>${ item.role }</td>
-														<td>${ item.group_id }</td>
+													<%-- 	<td>${ item.group_id }</td> --%>
 													</tr>
 												</tbody>
 												</c:forEach>

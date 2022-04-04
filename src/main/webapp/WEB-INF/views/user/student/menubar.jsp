@@ -25,13 +25,13 @@
 		</div>
 	</div>
 
-	<div class="dropdown">
+	<%-- <div class="dropdown">
 		<button class="dropbtn">Schedule Report</button>
 		<div class="dropdown-content">
 			<a href="<c:url value="/student_ViewScheduleReport"/>">View Schedule</a>
 		</div>
 	</div>
-
+ --%>
 	<div class="dropdown">
 		<button class="dropbtn">Meeting</button>
 		<div class="dropdown-content">

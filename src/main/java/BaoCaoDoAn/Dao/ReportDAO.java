@@ -105,7 +105,7 @@ public class ReportDAO {
 	}
 
 	public void saveFileReportFile(String fileName, Integer reportId) {
-		String sql = "UPDATE `baocaodoan`.`report` SET `urlReport` = ? WHERE (`id` = ?);";
+		String sql = "UPDATE `baocaodoan`.`report` SET `urlReport` = ?, `status` = '1'  WHERE (`id` = ?);";
 		jdbcTemplate.update(sql, new Object[] { fileName, reportId });
 	}
 
