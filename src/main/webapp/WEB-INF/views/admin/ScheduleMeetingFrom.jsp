@@ -49,7 +49,7 @@
 								</div>
 
 								<div style="margin: 30px 200px">
-									<form:form action="addScheduleMeeting" method="POST"
+									<form:form action="editScheduleMeeting" method="POST"
 										modelAttribute="ScheduleMeeting2">
 										<form:hidden path="id" />
 
