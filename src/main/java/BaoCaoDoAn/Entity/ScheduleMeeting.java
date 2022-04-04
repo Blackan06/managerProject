@@ -1,7 +1,6 @@
 package BaoCaoDoAn.Entity;
 
 import java.sql.Date;
-import java.time.LocalTime;
 import java.util.Optional;
 
 import javax.validation.constraints.NotEmpty;

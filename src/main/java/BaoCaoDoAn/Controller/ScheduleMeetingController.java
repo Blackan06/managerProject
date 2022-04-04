@@ -163,17 +163,28 @@ public class ScheduleMeetingController {
 
 		} else {
 			if (ScheduleMeeting.getId() > 0) {
-
+				if (ScheduleMeeting.getTimeMeeting().equals(ScheduleMeeting.getSubmitDate())) {
+					redirectAttributes.addFlashAttribute("isDateSubmit",
+							"Date submit have to greater than time create!");
+					System.out.println("kiet1");
+					return new ModelAndView("redirect:/editScheduleMeeting?id=" + ScheduleMeeting.getId());
+				}
 				if (ScheduleMeeting.getTimeMeeting().after(ScheduleMeeting.getSubmitDate())) {
 					redirectAttributes.addFlashAttribute("isDateSubmit",
 							"Date submit have to greater than time create!");
 					System.out.println("kiet1");
 					return new ModelAndView("redirect:/editScheduleMeeting?id=" + ScheduleMeeting.getId());
-				} else 
+				} else
+					System.out.println("id" + ScheduleMeeting.getId());
+				System.out.println("Name" + ScheduleMeeting.getName());
+				System.out.println("account id" + ScheduleMeeting.getAccount_id());
+				System.out.println("project id" + ScheduleMeeting.getProject_id());
+				System.out.println("TimeCreate" + ScheduleMeeting.getTimeMeeting());
+				System.out.println("DateSubmit" + ScheduleMeeting.getSubmitDate());
+				System.out.println("kiet2");
+				scheduleMeetingDAO.update(ScheduleMeeting);
 
-					System.out.println("kiet2");
-					scheduleMeetingDAO.update(ScheduleMeeting);
-					return new ModelAndView("redirect:/ScheduleMeeting");
+				return new ModelAndView("redirect:/ScheduleMeeting");
 			}
 		}
 		return new ModelAndView("redirect:/ScheduleMeeting");
