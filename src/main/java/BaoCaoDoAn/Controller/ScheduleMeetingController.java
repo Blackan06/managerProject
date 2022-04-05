@@ -37,9 +37,13 @@ import BaoCaoDoAn.Entity.ScheduleMeeting;
 import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ProjectServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ScheduleMeetingServiceImpl;
+import BaoCaoDoAn.validator.AuthorityValid;
 
 @Controller
 public class ScheduleMeetingController {
+	@Autowired
+	private AuthorityValid authorityValid;
+		
 	@Autowired
 	private ProjectServiceImpl projectService;
 	@Autowired
@@ -48,10 +52,15 @@ public class ScheduleMeetingController {
 	ScheduleMeetingDAO scheduleMeetingDAO;
 	@Autowired
 	private GroupServiceImpl groupService;
+	
 	private ModelAndView mv = new ModelAndView();
 
 	@RequestMapping(value = { "/teacher_viewScheduleMeeting" })
 	public ModelAndView teacherGetScheduleMeetingByProjectId(HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "teacher","teacher_viewScheduleMeeting") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		System.out.println("hello");
 		Account teacher = (Account) session.getAttribute("InforAccount");
 //		List<project_scheduleMeeting> result = scheduleMeetingServiceImpl.GetScheduleMeetingByProjectId(teacher.getId()) ;
@@ -75,7 +84,11 @@ public class ScheduleMeetingController {
 	}
 
 	@RequestMapping(value = "/ScheduleMeeting")
-	public ModelAndView admin(Model model) {
+	public ModelAndView admin(Model model, HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "admin","ScheduleMeeting") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}	
 
 		List<project_scheduleMeeting> list = new ArrayList<project_scheduleMeeting>();
 		list = scheduleMeetingDAO.GetDataAmin();
@@ -205,6 +218,10 @@ public class ScheduleMeetingController {
 
 	@RequestMapping(value = "/studentMeeting")
 	public ModelAndView viewStudentMeeting(@ModelAttribute("message") String message, HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "student","studentMeeting") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		String path = session.getServletContext().getRealPath("/meetingContent");
 		System.out.println("REAL PATH:" + path);
 		Account student = (Account) session.getAttribute("InforAccount");

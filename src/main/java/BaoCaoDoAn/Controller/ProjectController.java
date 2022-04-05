@@ -32,9 +32,12 @@ import BaoCaoDoAn.Entity.Report;
 import BaoCaoDoAn.Service.User.Impl.AccountServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ProjectServiceImpl;
+import BaoCaoDoAn.validator.AuthorityValid;
 
 @Controller
 public class ProjectController {
+	@Autowired
+	private AuthorityValid authorityValid;
 	@Autowired
 	AccountDAO accountDao;
 	@Autowired
@@ -48,7 +51,11 @@ public class ProjectController {
 	private ModelAndView mv = new ModelAndView();
 
 	@RequestMapping(value = { "/teacher_getProject/{id}" })
-	public ModelAndView teacherGetProjectById(@PathVariable int id) {
+	public ModelAndView teacherGetProjectById(@PathVariable int id, HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "student","teacher_getProject/{id}") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		List<Project> result = projectService.getProjectByTeacherId(id);
 		if (!result.isEmpty()) {
 			mv.addObject("projectById", result);
@@ -58,7 +65,11 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = { "/AdminProject" })
-	public ModelAndView getAllProject(Project project) {
+	public ModelAndView getAllProject(Project project, HttpSession session	) {
+		if(authorityValid.authorityWithLogin(session, "admin","AdminProject") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		mv.setViewName("admin/adminproject");
 		mv.addObject("getAllProject", projectService.getAllProject());
 		mv.addObject("group4", groupServiceImpl.getGroupAdmin());
@@ -215,6 +226,10 @@ public class ProjectController {
 
 	@RequestMapping(value = "/studentProject")
 	public ModelAndView getProject(HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "student","studentProject") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		Account student = (Account) session.getAttribute("InforAccount");
 		Project project = projectService.getProjectByGroupId(student.getGroup_id());
 		Account teacher = accountService.getAccountById(project.getTeacherId());

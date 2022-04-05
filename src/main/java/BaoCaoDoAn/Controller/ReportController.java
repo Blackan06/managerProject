@@ -47,6 +47,7 @@ import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ProjectServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ReportServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.ScheduleReportServiceImpl;
+import BaoCaoDoAn.validator.AuthorityValid;
 
 @Controller
 public class ReportController {
@@ -58,7 +59,8 @@ public class ReportController {
 	private ProjectServiceImpl projectSerivce;
 	@Autowired
 	private ReportDAO reportDAO;
-
+	@Autowired
+	private AuthorityValid authorityValid;
 	@Autowired
 
 	private AccountServiceImpl accountService;
@@ -91,6 +93,10 @@ public class ReportController {
 
 	@GetMapping(value = "teacher_viewReport")
 	public ModelAndView viewReport(HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "teacher","teacher_viewReport") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		Account teacher = (Account) session.getAttribute("InforAccount");
 		ModelAndView mv = new ModelAndView();
 		List<Project> managedProject = projectSerivce.getProjectByTeacherId(teacher.getId());
@@ -111,7 +117,15 @@ public class ReportController {
 	}
 
 	@GetMapping(value = "/student_ViewReport")
+
+	public ModelAndView studentViewReport(HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "student","student_ViewReport") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}		
+
 	public ModelAndView studentViewReport(HttpSession session,RedirectAttributes redirAttr) {
+
 		Account account = (Account) session.getAttribute("InforAccount");
 
 		System.out.println(account.getId());
@@ -346,7 +360,12 @@ public class ReportController {
 	}
 
 	@RequestMapping("/getReport")
-	public ModelAndView getAllReport(HttpServletRequest req, HttpServletResponse res) {
+	public ModelAndView getAllReport(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
+
+if(authorityValid.authorityWithLogin(session, "admin","getReport") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		mv.setViewName("/admin/adminReport");
 		String typeReport = req.getParameter("type");
 
