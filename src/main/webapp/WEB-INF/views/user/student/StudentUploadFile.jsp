@@ -40,10 +40,26 @@
 			<c:if test="${ not empty InforReport }">
 							<h1>Deadline to submit : ${ InforReport }</h1>
 						</c:if>
+<<<<<<< HEAD
+				<div class="col-lg-12 grid-margin stretch-card" style="display: flex; align-items: center;justify-content: center;">
+
+=======
 			
+>>>>>>> 63a45f17d796caf98af160dff3e2b3447cfcab45
 
 
+<<<<<<< HEAD
+	<div class="main-panel">
+		<div class="content-wrapper">
+			<div class="row">
+				<c:if test="${ not empty InforReport }">
+					<h1>Deadline to submit : ${ InforReport }</h1>
+				</c:if>
+				<div class="col-lg-12 grid-margin stretch-card">
+
+=======
 	
+>>>>>>> 63a45f17d796caf98af160dff3e2b3447cfcab45
 
 
 					<div class="col-lg-12 grid-margin stretch-card" style="display: flex; align-items: center;justify-content: center;">
