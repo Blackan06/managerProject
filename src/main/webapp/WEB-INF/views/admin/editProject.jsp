@@ -11,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Group Page</title>
+<title>Group Edit</title>
 <!-- Custom fonts for this template-->
 <%@include file="/WEB-INF/views/admin/linkheader.jsp"%>
 </head>
@@ -134,10 +134,11 @@
 		</div>
 		<!-- End of Main Content -->
 
-		<!-- Footer -->
+		
+	</div>
+	<!-- Footer -->
 		<%@include file="/WEB-INF/views/admin/footer.jsp"%>
 		<!-- End of Footer -->
-	</div>
 	</div>
 
 	<!-- Logout Modal-->

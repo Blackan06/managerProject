@@ -40,7 +40,7 @@
 											<p class="text-white">${ InforAccount.phone }
 											
 											</p>
-											<p class="text-white">${ InforAccount.role }- ${ InforAccount.isLeader }</p>
+											<p class="text-white">Leader- ${ InforAccount.isLeader }</p>
 										</div>
 									</div>
 								</div>

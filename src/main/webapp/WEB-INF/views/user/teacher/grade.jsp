@@ -69,7 +69,7 @@
                                             <form:errors path="point" cssClass="error" />
                                             <br>
                                             <br>
-                                            <input type="submit"  />
+                                            <input type="submit" value="SAVE" class="btn btn-primary mb-1"  />
                                         </form:form>
                                     </c:if>
                                 </div>
