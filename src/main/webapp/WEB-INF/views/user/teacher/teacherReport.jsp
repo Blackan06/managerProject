@@ -66,13 +66,13 @@
 																test="${report.status > 0}">
 
 																<button>
-																	<a href='<c:url value="/grading_table/${report.id}"/>'>Grade</a>
+																	<a class="btn btn-primary" href='<c:url  value="/grading_table/${report.id}"/>' >Grade</a>
 																</button>
 															</c:if> <!--khi chua summit thi doi background khac  -->
 															 <c:if
 																test="${report.status < 1}">
 																<button disabled="disabled">
-																	<a href="">Grade</a>
+																	<a href="" class="btn btn-primary">Grade</a>
 																</button>
 															</c:if>
 														</td>
