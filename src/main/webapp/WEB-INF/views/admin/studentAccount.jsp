@@ -36,6 +36,15 @@
 				<div class="container-fluid">
 				
 				<div class="card-header py-3">
+							
+						</div>
+					<!-- DataTales Example -->
+					<div class="card shadow mb-4">
+					<div class="card-header py-3">
+							<h4 class="m-0 font-weight-bold text-primary">ACCOUNT DETAILS</h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
 							<!--	<h6 class="m-0 font-weight-bold text-primary">Search</h6> -->
 							<!-- Load icon library -->
 							<form:form method="POST" action="/BaoCaoDoAn/searchAcc"
@@ -46,14 +55,7 @@
 									class="form-control mb-2 mr-sm-2" />
 								<button type="submit" class="btn btn-primary">Submit</button>
 							</form:form>
-						</div>
-					<!-- DataTales Example -->
-					<div class="card shadow mb-4">
-					<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">Account Detail</h4>
-						</div>
-						<div class="card-body">
-							<div class="table-responsive">
+							<p></p>
 								<!-- Add Group Button -->
 								<a class="nav-link" style="font-size: 18px;"
 									href='<c:url value="addAccountStudent"></c:url>'> <i

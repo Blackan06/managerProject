@@ -45,11 +45,13 @@ color:red;
 							<form:form action="${pageContext.request.contextPath}/saveReportComment" method="POST" modelAttribute="report">
 							<form:hidden path="name"/>
 							<form:hidden path="id"/>
+							<label>Total Point:</label>
+							<form:input  path="point"/>	
+							<br>
 							<label>Comment:</label>
-							<form:textarea  path="comment"/>
-								<label>Total Point:</label>
-							<form:input  path="point"/>				
-							<input type="submit" value="save" />
+							<form:textarea  path="comment" class="form-control"/>
+							<br>			
+							<input type="submit" value="SAVE" class="btn btn-primary mb-2" />
 							</form:form>
 							<p class="error">${error}</p>
 							<table class="table table-striped project-orders-table">
