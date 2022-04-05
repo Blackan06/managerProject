@@ -29,17 +29,17 @@
 
 	<!-- ---------------------CONTENT--------------------- -->
 
-<a style="margin-left: 10px"
+	<a style="margin-left: 10px"
 		href='<c:url value="/student_ViewReport"></c:url>'
 		class="btn btn-primary btn-lg"><span
 		class="glyphicon glyphicon-home"></span> Back </a>
 
-	<div class="main-panel" >
-		<div class="content-wrapper" >
-			<div class="row" >
-			<c:if test="${ not empty InforReport }">
-							<h1>Deadline to submit : ${ InforReport }</h1>
-						</c:if>
+	<div class="main-panel">
+		<div class="content-wrapper">
+			<div class="row">
+				<c:if test="${ not empty InforReport }">
+					<h1>Deadline to submit : ${ InforReport }</h1>
+				</c:if>
 				<div class="col-lg-12 grid-margin stretch-card">
 
 
@@ -51,13 +51,12 @@
 						<h1>Time now : ${TIMENOW}</h1>
 						-->
 
-						
+
 						<br />
 						<form action="${pageContext.request.contextPath}/saveReportFile"
 							method="post" style="text-align: center;"
 							enctype="multipart/form-data">
-							<input type="hidden" name="ReportId" value="${ReportId}" /> 
-							<input
+							<input type="hidden" name="ReportId" value="${ReportId}" /> <input
 								style="line-height: 1 !important" class="form-control"
 								type="file" name="file" id="formFile">
 							<button style="margin-top: 3em;" type="submit"
@@ -69,11 +68,12 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- ---------------------END OF CONTENT--------------------- -->
 
 	<!-- -----------------FOOTER-------------------- -->
 	<!-- -----------------END OF FOOTER-------------------- -->
-	
+
 	<!-- Script-->
 	<%@include file="/WEB-INF/views/user/student/studentscript.jsp"%>
 

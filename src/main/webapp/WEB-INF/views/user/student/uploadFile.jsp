@@ -28,7 +28,10 @@
 
 
 	<!-- ---------------------CONTENT--------------------- -->
-
+<a style="margin-left: 10px"
+		href='<c:url value="/studentMeeting"></c:url>'
+		class="btn btn-primary btn-lg"><span
+		class="glyphicon glyphicon-home"></span> Back </a>
 
 
 	<div class="main-panel">
