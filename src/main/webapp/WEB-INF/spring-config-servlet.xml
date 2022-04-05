@@ -10,7 +10,9 @@
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd">
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd"
+		
+		>
 
 	<context:component-scan
 		base-package="BaoCaoDoAn" />
@@ -39,8 +41,10 @@
 
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/assets/**" location="/assets/" />
-	<mvc:resources mapping="/report_stogare/**" location="/ReportFile/" />
-	<mvc:resources mapping="/meeting_stogare/**" location="/meetingContent/" />
+	<mvc:resources mapping="/report_stogare/**"
+		location="/ReportFile/" />
+	<mvc:resources mapping="/meeting_stogare/**"
+		location="/meetingContent/" />
 	<!-- Load custom message resource -->
 
 	<bean id="messageSource"
