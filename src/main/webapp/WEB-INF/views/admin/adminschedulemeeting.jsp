@@ -56,7 +56,7 @@
 										<tr>
 											<!-- <th>Id</th> -->
 											<th>Name ScheduleMeeting</th>
-											<th>Project_id</th>
+											<!-- <th>Project_id</th> -->
 											<th>Project Name</th>
 											<th>TimeMeeting</th>
 											<th>Date Submit</th>
@@ -73,7 +73,7 @@
 											<tr>
 												<%-- 	<td>${ item.id }</td> --%>
 												<td>${ item.name }</td>
-												<td>${ item.project_id }</td>
+												<%-- 	<td>${ item.project_id }</td> --%>
 												<td>${ item.projectName }</td>
 												<td>${ item.timeMeeting }</td>
 												<td>${ item.submitDate }</td>
