@@ -17,7 +17,7 @@
 </head>
 
 <body id="page-top">
-<%-- 	<c:set var="message" value="${message}" />
+	<%-- 	<c:set var="message" value="${message}" />
 	<c:if test="${message!=''}">
 		<script type="text/javascript">
 			var Msg = "${message}";
@@ -80,7 +80,10 @@
 												itemLabel="name" />
 										</form:select>
 
-
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorGroup }</span>
+										</div>
 
 										<p style="color: red">${ ValidationProject_Group }</p>
 
@@ -93,8 +96,11 @@
 												itemLabel="name" />
 
 										</form:select>
-									
 
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorTeacher }</span>
+										</div>
 
 
 										<%-- <form:select path="teacherId">
@@ -103,7 +109,7 @@
 											</c:forEach>
 										</form:select>
  --%>
-										<p style="color: red">${ ValidationProject_Teacher }</p>
+
 										<br>
 										<br>
 										<button type="submit" class="btn btn-primary mb-2">Submit</button>

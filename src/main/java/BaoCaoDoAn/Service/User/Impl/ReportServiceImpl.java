@@ -74,4 +74,8 @@ public class ReportServiceImpl implements IReportService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	public void saveComment(String cmt,int reportId) {
+		// TODO Auto-generated method stub
+		reportDao.saveReportComment(cmt, reportId);
+	}
 }

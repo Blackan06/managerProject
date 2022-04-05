@@ -14,18 +14,18 @@ import BaoCaoDoAn.validator.FutureBasedDate;
 public class Report {
 	private int id;
 	
-	@NotNull
+	@NotNull(message = "")
 	@Length(min = 5, max = 20, message = "Length of report name must be between 5 and 20")
 
 
 	@Pattern(regexp = "[a-zA-Z0-9 ]{1,100}" , message = " Report name is empty")
-
 	private String name;
 
 	@NotNull(message = "Not character, just number")
 	@Max(value = 10, message = "must be less than or equal 10")
 	@Min(value = 0, message = "must be equal or greater than 0")
-	private Double point;
+	private Double point;	
+	@Pattern(regexp = "[a-zA-Z0-9 ]{1,200}" , message = " Report comment is empty")
 	private String comment;
 	private Date timeCreate;
 

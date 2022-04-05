@@ -119,13 +119,15 @@
 
 										<form:select path="role" class="form-control mb-2 mr-sm-2"
 											items="${listRole}" />
-										<%-- <div class="">
+										 <div class="">
 											<!-- Simple link -->
 											<span style="color: red">${ errorTeacher }</span>
-
-
 										</div>
- --%>
+										<div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ errorStudent }</span>
+										</div>
+ 
 
 
 										<%--  <form:select path="role"
@@ -142,10 +144,10 @@
 
 
 
-										<%-- <div class="">
+										 <div class="">
 											<!-- Simple link -->
 											<span style="color: red">${ errorleader }</span>
-										</div> --%>
+										</div> 
 
 										<form:checkbox path="isLeader" />
 

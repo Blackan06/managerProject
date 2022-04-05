@@ -94,7 +94,7 @@ public class ReportController {
 		Account teacher = (Account) session.getAttribute("InforAccount");
 		ModelAndView mv = new ModelAndView();
 		List<Project> managedProject = projectSerivce.getProjectByTeacherId(teacher.getId());
-
+		
 		List<Report> reports = new ArrayList<Report>();
 		for (Project project : managedProject) {
 			List<Report> reportsTemp = reportService.getAllReportByProjecId(project.getId());
@@ -104,6 +104,7 @@ public class ReportController {
 
 			}
 		}
+		
 		mv.addObject("reportList", reports);
 		mv.setViewName("user/teacher/teacherReport");
 		return mv;
@@ -139,7 +140,7 @@ public class ReportController {
 		
 		if (pointDetails == null) {
 				System.out.println(pointDetails);
-				mv.addObject("mess", "chua có diem ");
+				mv.addObject("mess", "No score yet");
 //			redirAttr.addFlashAttribute("message","You successfully uploaded ");
 				mv.setViewName("/user/student/studentreport");
 			
@@ -151,7 +152,7 @@ public class ReportController {
 			mv.addObject("mess", "");
 			mv.setViewName("/user/student/viewPointDetails");
 			
-			mv.addObject("pointDetails", pointDetails);
+			mv.addObject("pointDetails", pointDetails);//Chorm dau mat tieu roi :DD
 		}
 
 		return mv;
@@ -258,11 +259,7 @@ public class ReportController {
 		return mv;
 	}
 
-	@InitBinder
-	public void initBinder(WebDataBinder dataBinder) {
-		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-	}
+	
 
 	@RequestMapping("/upload_report/{report_id}")
 	public ModelAndView showUploadPage(@PathVariable int report_id, @ModelAttribute("message") String message,
@@ -346,7 +343,6 @@ public class ReportController {
 		return "redirect:/upload_report/" + reportId;
 
 	}
-
 	@RequestMapping("/getReport")
 	public ModelAndView getAllReport(HttpServletRequest req, HttpServletResponse res) {
 		mv.setViewName("/admin/adminReport");
@@ -432,5 +428,23 @@ public class ReportController {
 			mv = new ModelAndView("redirect:/getReport");
 		}
 		return mv;
+	}
+	@PostMapping("/saveReportComment")
+	public ModelAndView saveReportComment(@Valid @ModelAttribute("report") Report report,BindingResult theBindingResult,RedirectAttributes redirectAttributes) {	
+			if(!theBindingResult.hasFieldErrors("comment")) {
+				if(report.getComment()==null) {
+					report.setComment("");
+				}				
+				reportService.saveComment(report.getComment(), report.getId());
+			}else {
+				redirectAttributes.addFlashAttribute("cmtError", "Error must be 1-200 characters and not special characters.");
+			}
+			mv = new ModelAndView("redirect:/grading_table/"+report.getId());		
+		return mv;
+	}
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
 }

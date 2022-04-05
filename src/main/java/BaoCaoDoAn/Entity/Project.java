@@ -6,15 +6,17 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Length;
+
 import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
 
 public class Project {
 	private int id;
-
-	@Pattern(regexp = "[a-zA-Z0-9 ]{1,100}", message = " Project name is empty")
+	
+	
+	@NotNull(message = "Name is empty")
 	private String name;
 	
-	@NotNull(message = " Url name is empty")
 //	@Pattern(regexp = "[a-zA-Z ]{1,100}", message = " Url name is empty")
 
 

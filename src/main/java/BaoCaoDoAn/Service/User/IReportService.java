@@ -27,4 +27,5 @@ public interface IReportService {
 	public int gradeReport(PointDetail studentGradeReportModel);
 	public boolean addPointDetail(PointDetail studentGradeReportModel);
 	public boolean editPointDetail(PointDetail studentGradeReportModel);
+	public void saveComment(String cmt,int reportId);
 }

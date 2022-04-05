@@ -8,11 +8,14 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,8 +93,12 @@ public class ProjectController {
 		int countTeacherId = projectService.getCountTeacherId(teacherId);
 		System.out.println("check techer count project " + countTeacherId);
 		if (bindingResult.hasErrors()) {
+			if(bindingResult.hasFieldErrors("name")) {
+				System.out.println("Name Error");
+			}
+			mv.addObject("project", project);
 			mv.setViewName("/admin/addProject");
-
+				
 		} else {
 			if (countGroupId >= 1) {
 
@@ -136,7 +143,7 @@ public class ProjectController {
 
 	@PostMapping(value = "/editProject")
 	public ModelAndView edit(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
-			HttpSession session,	RedirectAttributes redirAttr , Model model  ) {
+			HttpSession session,	RedirectAttributes redirectAttributes , Model model  ) {
 		int groupId = project.getGroup_id();
 		int countGroupId = projectService.getCountGroupId(groupId);
 
@@ -165,17 +172,16 @@ public class ProjectController {
 			mv.setViewName("/admin/editProject");
 		} else {
 			if (countGroupId >= 1 && !GroupidCompare.equals(groupIdEdit)) {
-				mv.addObject("ValidationProject_Group", "The group currently has a project");
-
-				mv.setViewName("/admin/editProject");
+				redirectAttributes.addFlashAttribute("errorGroup", "Group has been project!");
+				return new ModelAndView("redirect:/editProject/" + project.getId());
 			}
 
-			else if (countTeacherId >= 2 && !TeacherIdCompare.equals(TeacherIdEdit)) {
+			else if (countTeacherId >= 1 && !TeacherIdCompare.equals(TeacherIdEdit)) {
 				/* redirAttr.addFlashAttribute("message", "File Type Not Valid"); */
-				
-				mv.setViewName("/admin/editProject");
+				redirectAttributes.addFlashAttribute("errorTeacher", "Teacher has been group!");
+				return new ModelAndView("redirect:/editProject/" + project.getId());
 
-			} else if (countTeacherHaveProject >= 2 && TeacherIdCompare.equals(TeacherIdEdit)) {
+			} else if (countTeacherHaveProject >= 1 && TeacherIdCompare.equals(TeacherIdEdit)) {
 				projectService.editProject(project.getId(), project);
 				return new ModelAndView("redirect:/AdminProject");
 			}
@@ -217,5 +223,9 @@ public class ProjectController {
 		mv.setViewName("user/student/studentProject");
 		return mv;
 	}
-
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
 }
