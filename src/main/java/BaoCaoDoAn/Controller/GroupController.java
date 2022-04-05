@@ -24,6 +24,7 @@ import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Entity.Group;
 import BaoCaoDoAn.Entity.Project;
 import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
+import BaoCaoDoAn.validator.AuthorityValid;
 
 @Controller
 public class GroupController {
@@ -33,6 +34,8 @@ public class GroupController {
 	GroupDAO groupDAO;
 
 	private ModelAndView mv = new ModelAndView();
+	@Autowired
+	private AuthorityValid authorityValid;
 //	@RequestMapping(value = {"/", "/group"})
 //	public ModelAndView Login() {
 //		mv.setViewName("/group");
@@ -40,10 +43,13 @@ public class GroupController {
 //	}
 
 	@RequestMapping(value = "/studentGroup")
-	public ModelAndView StudentGroup() {
-
+	public ModelAndView StudentGroup(HttpSession session) {
+		
+		if(authorityValid.authorityWithLogin(session, "student","studentGroup") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}				
 		mv.setViewName("user/student/studentGroup");
-
 		return mv;
 	}
 
@@ -76,6 +82,10 @@ public class GroupController {
 
 	@RequestMapping(value = { "/teacherGroupByteacher_id" })
 	public ModelAndView TeacherGroupByTeacher_idInProject(HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "teacher","teacherGroupByteacher_id") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		Account teacher = (Account) session.getAttribute("InforAccount");
 		List<Group> result = groupDAO.getGroupByProjectAndAccount(teacher.getId());
 		for (Group group2 : result) {
@@ -91,6 +101,10 @@ public class GroupController {
 
 	@RequestMapping(value = { "/studentGroupByteacher_id" })
 	public ModelAndView StudentGroupByTeacher_idInProject(HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "student","studentGroupByteacher_id") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		Account student = (Account) session.getAttribute("InforAccount");
 		List<Account> list = groupDAO.getStudentInGroupCach2(student.getGroup_id());
 		List<Account> listaccount = groupDAO.GetGroup(student.getGroup_id());
@@ -145,7 +159,13 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/ListGroup")
-	public ModelAndView listGroup() {
+	public ModelAndView listGroup(HttpSession session) {
+		
+		if(authorityValid.authorityWithLogin(session, "admin","ListGroup") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}	
+		
 		List<Group> list1 = new ArrayList<Group>();
 		list1 = groupServiceImpl.getGroupAdmin();
 

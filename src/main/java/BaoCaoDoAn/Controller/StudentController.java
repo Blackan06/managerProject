@@ -26,6 +26,7 @@ import BaoCaoDoAn.Dto.AccountSearchCondition;
 import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Service.User.Impl.GroupServiceImpl;
 import BaoCaoDoAn.Service.User.Impl.StudentServiceImpl;
+import BaoCaoDoAn.validator.AuthorityValid;
 
 @Controller
 public class StudentController {
@@ -40,11 +41,16 @@ public class StudentController {
 
 	@Autowired
 	StudentDAO studentDao;
-
+	@Autowired
+	private AuthorityValid authorityValid;
 	private ModelAndView mv = new ModelAndView();
 
 	@RequestMapping(value = "/studentList", method = RequestMethod.GET)
-	public ModelAndView studentListAll(HttpServletRequest request) {
+	public ModelAndView studentListAll(HttpServletRequest request, HttpSession session) {
+		if(authorityValid.authorityWithLogin(session, "admin","studentList") == false) {
+			mv.setViewName("errorPage");
+			return mv;
+		}
 		List<Account> list = new ArrayList<Account>();
 		list = studentService.getAccountList();
 		mv.addObject("studentList", studentService.getAccountList());

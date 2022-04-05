@@ -1,5 +1,6 @@
 package BaoCaoDoAn.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import BaoCaoDoAn.Entity.Account;
 import BaoCaoDoAn.Entity.ScheduleReport;
 import BaoCaoDoAn.Service.User.IProjectService;
 import BaoCaoDoAn.Service.User.Impl.AccountServiceImpl;
+import BaoCaoDoAn.validator.AuthorityValid;
 
 @Controller
 public class AccountController {
@@ -26,12 +28,22 @@ public class AccountController {
 	private ScheduleReportDAO scheduleReportDAO;
 	@Autowired
 	private IProjectService projectService;
+	@Autowired
+	private AuthorityValid authorityValid;
 
 	private ModelAndView mv = new ModelAndView();
 
 	@RequestMapping(value = { "/", "/login" })
-	public ModelAndView Login() {
-		mv.setViewName("/loginpage");
+	public ModelAndView Login(HttpSession session) {
+		boolean check = authorityValid.authorityWithoutLogin(session, "login");	
+		System.out.println("CHECK:"+check);
+		if (!check) {
+			mv.setViewName("/errorPage");
+			return mv;
+		} else {
+			mv.setViewName("/loginpage");
+		}
+		
 		mv.addObject("account", new Account());
 		mv.addObject("schduleReport", new ScheduleReport());
 		mv.addObject("scheduleReportDAO", scheduleReportDAO.getAllScheduleReport());
@@ -47,10 +59,15 @@ public class AccountController {
 
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/dang-nhap", method = RequestMethod.POST)
-	public ModelAndView Login(@ModelAttribute("account") Account account, HttpSession session) {
+	public ModelAndView Login(@ModelAttribute("account") Account account, HttpSession session) {		
+		if (!authorityValid.authorityWithoutLogin(session, "login")) {
+			mv.setViewName("/errorPage");
+			return mv;
+		}				
 		Account acc = accountService.CheckAccount(account);
 		if (acc != null && acc.getRole().equals("student")) {
 			session.setAttribute("InforAccount", accountDao.GetUserByAccount(account));
+			session.setAttribute("defaultMapping", "studenthome");
 			mv.addObject("InforAccount", accountDao.GetUserByAccount(account));
 			mv.setViewName("/user/student");
 			mv.addObject("statusLogin", "login thanh cong");
@@ -59,12 +76,15 @@ public class AccountController {
 		if (acc != null && acc.getRole().equals("teacher")) {
 			mv.setViewName("/user/teacher");
 			session.setAttribute("InforAccount", accountDao.GetUserByAccount(account));
+			session.setAttribute("defaultMapping", "trang-chu");			
 			mv.addObject("InforAccount", accountDao.GetUserByAccount(account));
 			mv.addObject("statusLogin", "login thanh cong");
 
 		}
 		if (acc != null && acc.getRole().equals("admin")) {
 			mv.setViewName("/admin/admin");
+			session.setAttribute("InforAccount", accountDao.GetUserByAccount(account));
+			session.setAttribute("defaultMapping", "admin/admin");
 			mv.addObject("statusLogin", "login thanh cong");
 
 		}
@@ -77,15 +97,22 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/dang-ky", method = RequestMethod.GET)
-	public ModelAndView DangKy() {
+	public ModelAndView DangKy(HttpSession session) {
+		if (!authorityValid.authorityWithoutLogin(session, "login")) {
+			mv.setViewName("/errorPage");
+			return mv;
+		}
 		mv.setViewName("/registrationpage");
 		mv.addObject("account", new Account());
 		return mv;
 	}
 
 	@RequestMapping(value = "/dang-ky", method = RequestMethod.POST)
-	public ModelAndView DangKy(@ModelAttribute("account") Account account) {
-
+	public ModelAndView DangKy(@ModelAttribute("account") Account account, HttpSession session) {
+		if (!authorityValid.authorityWithoutLogin(session, "login")) {
+			mv.setViewName("/errorPage");
+			return mv;
+		}
 		int count = accountService.AddAccount(account);
 		System.out.println(count);
 
@@ -104,7 +131,8 @@ public class AccountController {
 	public ModelAndView LogOut(HttpSession session) {
 		mv.setViewName("/loginpage");
 		mv.addObject("statusLogin", " ");
-		session.removeAttribute("InforAccount");
+		session.invalidate();
+		/* session.removeAttribute("InforAccount"); */
 		return mv;
 	}
 
