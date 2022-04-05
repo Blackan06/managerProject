@@ -20,7 +20,7 @@
 					<th>ID</th>
 					<th>Name</th>
 					<th>ViewProject</th>
-					<th>ViewStudent</th>
+					<th>ViewMember</th>
 					<th>DELETE</th>
 					<th>Edit</th>
 					
