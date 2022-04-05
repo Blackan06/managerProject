@@ -33,6 +33,7 @@ public class AccountController {
 	@RequestMapping(value = { "/", "/login" })
 	public ModelAndView Login() {
 		mv.setViewName("/loginpage");
+		mv.addObject("statusLogin","");
 		mv.addObject("account", new Account());
 		mv.addObject("schduleReport", new ScheduleReport());
 		mv.addObject("scheduleReportDAO", scheduleReportDAO.getAllScheduleReport());
