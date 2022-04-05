@@ -34,9 +34,9 @@
 		class="btn btn-primary btn-lg"><span
 		class="glyphicon glyphicon-home"></span> Back </a>
 
-	<div class="main-panel">
-		<div class="content-wrapper">
-			<div class="row">
+	<div class="main-panel" >
+		<div class="content-wrapper" >
+			<div class="row" >
 			<c:if test="${ not empty InforReport }">
 							<h1>Deadline to submit : ${ InforReport }</h1>
 						</c:if>
@@ -61,7 +61,7 @@
 								style="line-height: 1 !important" class="form-control"
 								type="file" name="file" id="formFile">
 							<button style="margin-top: 3em;" type="submit"
-								class="btn btn-secondary btn-lg">Upload</button>
+								class="btn btn-primary mb-2">Upload</button>
 						</form>
 					</div>
 

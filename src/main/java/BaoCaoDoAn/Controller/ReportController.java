@@ -279,8 +279,11 @@ public class ReportController {
 			if (report.getTimeSubmit().toString().equalsIgnoreCase(date.toString())) {
 				mv.setViewName("/user/student/StudentUploadFile");
 			} else {
+
+				mv.setViewName("/user/student/studentreportoverdue");
 				redirAttr.addFlashAttribute("errorTimeReport", "The submission deadline has passed");
 				return new ModelAndView("redirect:/student_ViewReport");
+
 
 			}
 

@@ -55,7 +55,7 @@
                                             <form:errors path="point" cssClass="error" />
                                             <br>
                                             <br>
-                                            <input type="submit" />
+                                            <input type="submit" class="btn btn-primary mb-2" value="SAVE" />
                                         </form:form>
                                     </c:if>
                                     <c:if test="${editAction == true }">
@@ -69,7 +69,7 @@
                                             <form:errors path="point" cssClass="error" />
                                             <br>
                                             <br>
-                                            <input type="submit" />
+                                            <input type="submit"  />
                                         </form:form>
                                     </c:if>
                                 </div>
