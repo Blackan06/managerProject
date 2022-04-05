@@ -71,7 +71,6 @@
 											<th>Name</th>
 											<th>ViewProject</th>
 											<th>View Members</th>
-											<th>View Member</th>
 											<th>Action</th>
 										</tr>
 									</thead>

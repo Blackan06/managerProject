@@ -22,7 +22,7 @@
 	<li class="nav-item">
 	<li class="nav-item active"><a class="nav-link" 
 		href='<c:url value="/studentList"></c:url>'> <i
-			class="fas fa-fw fa-table"></i> <span>Student</span></a></li>
+			class="fas fa-fw fa-table"></i> <span>Member</span></a></li>
 	<li class="nav-item active"><a class="nav-link"
 		href='<c:url value="/getReport"></c:url>'> <i
 			class="fas fa-fw fa-table"></i> <span>Report</span></a></li>

@@ -32,9 +32,16 @@
 
 
 	<div class="main-panel">
-		<div class="content-wrapper">
-			<div class="row">
-				<div class="col-lg-12 grid-margin stretch-card">
+	<a style="margin-left: 10px; width: 80px; z-index: 1;"
+		href='<c:url value="/studentMeeting"></c:url>'
+		class="btn btn-primary btn-lg"><span
+		class="glyphicon glyphicon-home"></span> Back </a>
+
+
+		<div class="content-wrapper" style="display: flex; align-items: center;justify-content: center; margin-top:-300px;">
+		
+			<div class="row" >
+				<div class="col-lg-12 grid-margin stretch-card" >
 					<form action="${pageContext.request.contextPath}/savefile"
 						method="post" style="text-align: center;"
 						enctype="multipart/form-data">
