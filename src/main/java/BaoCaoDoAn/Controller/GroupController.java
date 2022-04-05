@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import BaoCaoDoAn.Dao.GroupDAO;
 import BaoCaoDoAn.Entity.Account;
@@ -225,15 +226,14 @@ public class GroupController {
 
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
 	public ModelAndView doPostAddGroup(@Valid @ModelAttribute("group4") Group group, BindingResult result,
-			HttpSession session) {
+			HttpSession session,RedirectAttributes redirectAttributes) {
 
 
 		String GroupNameAdd = group.getName();
 		System.out.println("GroupNameAdd " + GroupNameAdd);
 
 		if (result.hasErrors()) {
-			mv.addObject("error","Name must not empty or duplicate");
-
+			mv.addObject("group4",group);
 			mv.setViewName("/admin/adminAddGroup");
 		} else {
 			List<Group> listGroup = new ArrayList<Group>();
@@ -244,9 +244,8 @@ public class GroupController {
 
 				if (GroupNameAdd.equals(name)) {
 					flag = false;
-					System.out.println(flag);
-					mv.setViewName("/admin/adminAddGroup");
-					return mv;
+					redirectAttributes.addFlashAttribute("error","Name must not empty or duplicate");
+					return new ModelAndView("redirect:/addGroup");
 
 				}
 
