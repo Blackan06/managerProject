@@ -46,12 +46,15 @@
 
 				
 				<div class="container-fluid">
-				<h4>${ statusGroupOfStudent }</h4>
 				
+								<div class="alert alert-warning">
+									 ${ statusGroupOfStudent }
+								</div>
+							
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">Group</h4>
+							<h4 class="m-0 font-weight-bold text-primary">GROUP</h4>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -67,7 +70,7 @@
 										<!-- 	<th>ID</th> -->
 											<th>Name</th>
 											<th>ViewProject</th>
-											<th>ViewStudent</th>
+											<th>View Members</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -80,9 +83,9 @@
 												<%-- <td>${ items.id }</td> --%>
 												<td>${ items.name }</td>
 												<td><a
-													href='<c:url value="Project/${ items.id }"></c:url>'>ViewProject</a></td>
+													href='<c:url value="Project/${ items.id }"></c:url>'>View Project</a></td>
 												<td><a
-													href='<c:url value="group/${ items.id }"></c:url>'>ViewStudent</a></td>
+													href='<c:url value="group/${ items.id }"></c:url>'>View Members</a></td>
 												<td><a
 													href='<c:url value="/editgroup/${items.id}"></c:url>'
 													class="btn btn-success btn-circle btn-sm"><i

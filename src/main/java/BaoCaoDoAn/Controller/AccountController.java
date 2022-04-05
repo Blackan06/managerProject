@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import BaoCaoDoAn.Dao.AccountDAO;
 import BaoCaoDoAn.Dao.ScheduleReportDAO;
@@ -52,6 +53,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/trang-chu")
 	public ModelAndView HomeTeacher(@ModelAttribute("account") Account account, HttpSession session) {
+		
 		mv.setViewName("/user/teacher");
 		return mv;
 
@@ -59,12 +61,17 @@ public class AccountController {
 
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/dang-nhap", method = RequestMethod.POST)
+
 	public ModelAndView Login(@ModelAttribute("account") Account account, HttpSession session) {		
 		if (!authorityValid.authorityWithoutLogin(session, "login")) {
 			mv.setViewName("/errorPage");
 			return mv;
 		}				
+
+	public ModelAndView Login(@ModelAttribute("account") Account account, HttpSession session,RedirectAttributes redirectAttributes) {
+
 		Account acc = accountService.CheckAccount(account);
+		
 		if (acc != null && acc.getRole().equals("student")) {
 			session.setAttribute("InforAccount", accountDao.GetUserByAccount(account));
 			session.setAttribute("defaultMapping", "studenthome");
@@ -90,9 +97,11 @@ public class AccountController {
 		}
 
 		else if (acc == null) {
-			mv.setViewName("/loginpage");
-			mv.addObject("statusLogin", "login failed");
+			redirectAttributes.addFlashAttribute("statusLogin", "Login Failed");
+			return new ModelAndView("redirect:/");
+			
 		}
+		
 		return mv;
 	}
 
@@ -129,12 +138,17 @@ public class AccountController {
 
 	@RequestMapping(value = "/logout")
 	public ModelAndView LogOut(HttpSession session) {
-		mv.setViewName("/loginpage");
 		mv.addObject("statusLogin", " ");
+
 		session.invalidate();
 		/* session.removeAttribute("InforAccount"); */
 		return mv;
+
+		session.removeAttribute("InforAccount");
+		return new ModelAndView("redirect:/");
+
 	}
+	
 
 	@RequestMapping(value = "/studenthome")
 	public ModelAndView StudentHome() {

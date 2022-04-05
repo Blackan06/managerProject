@@ -44,7 +44,7 @@
 			src='<c:url value="/assets/img/undraw_profile.svg" /> '>
 		</a>
 		<!-- Dropdown - User Information -->
-		<div style="margin-left: 60px;">
+		<div style="margin-left: 60px;" >
 			<a class="dropdown-item text-gray-400"
 				href="<c:url value="/logout"/>"> <i
 				class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

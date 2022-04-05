@@ -117,11 +117,15 @@ public class ReportController {
 	}
 
 	@GetMapping(value = "/student_ViewReport")
+
 	public ModelAndView studentViewReport(HttpSession session) {
 		if(authorityValid.authorityWithLogin(session, "student","student_ViewReport") == false) {
 			mv.setViewName("errorPage");
 			return mv;
 		}		
+
+	public ModelAndView studentViewReport(HttpSession session,RedirectAttributes redirAttr) {
+
 		Account account = (Account) session.getAttribute("InforAccount");
 
 		System.out.println(account.getId());
@@ -134,6 +138,8 @@ public class ReportController {
 
 			project2.setReport(reports);
 		}
+		redirAttr.addFlashAttribute("errorPoint", "");
+		redirAttr.addFlashAttribute("errorTimeReport", "");
 
 		mv.addObject("listReport", project);
 //		mv.addObject("pointDetails", pointDetails);
@@ -150,14 +156,15 @@ public class ReportController {
 
 		if (pointDetails == null) {
 			System.out.println(pointDetails);
-			mv.addObject("mess", "No score yet");
-//			redirAttr.addFlashAttribute("message","You successfully uploaded ");
-			mv.setViewName("/user/student/studentreport");
+			
+			redirAttr.addFlashAttribute("errorPoint", "No score yet");
+			return new ModelAndView("redirect:/student_ViewReport");
 
 		} else if (pointDetails != null) {
 			System.out.println(pointDetails);
-			mv.addObject("mess", "");
+			
 			mv.setViewName("/user/student/viewPointDetails");
+			redirAttr.addFlashAttribute("errorPoint", "");
 
 			mv.addObject("pointDetails", pointDetails);// Chorm dau mat tieu roi :DD
 		}
@@ -287,7 +294,10 @@ public class ReportController {
 				mv.setViewName("/user/student/StudentUploadFile");
 			} else {
 
-				mv.setViewName("/user/student/studentreport");
+				mv.setViewName("/user/student/studentreportoverdue");
+				redirAttr.addFlashAttribute("errorTimeReport", "The submission deadline has passed");
+				return new ModelAndView("redirect:/student_ViewReport");
+
 
 			}
 
@@ -460,7 +470,7 @@ if(authorityValid.authorityWithLogin(session, "admin","getReport") == false) {
 		mv = new ModelAndView("redirect:/grading_table/" + report.getId());
 		return mv;
 	}
-
+	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);

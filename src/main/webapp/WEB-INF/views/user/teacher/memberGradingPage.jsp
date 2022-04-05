@@ -6,9 +6,9 @@
 <%@include file="/WEB-INF/views/user/teacher/linkHeader.jsp"%>
 <head>
 <style type="text/css">
-.error{
-font-size: 12px;
-color:red;
+.error {
+	font-size: 12px;
+	color: red;
 }
 </style>
 </head>
@@ -42,14 +42,18 @@ color:red;
 							<h1 style="text-align: center;">GRADING FOR REPORT</h1>
 							<h4>Grading for report:${report.name}</h4>
 							<h4>Group:${group.name}</h4>
-							<form:form action="${pageContext.request.contextPath}/saveReportComment" method="POST" modelAttribute="report">
-							<form:hidden path="name"/>
-							<form:hidden path="id"/>
-							<label>Comment:</label>
-							<form:textarea  path="comment"/>
+							<form:form
+								action="${pageContext.request.contextPath}/saveReportComment"
+								method="POST" modelAttribute="report">
+								<form:hidden path="name" />
+								<form:hidden path="id" />
 								<label>Total Point:</label>
-							<form:input  path="point"/>				
-							<input type="submit" value="save" />
+								<form:input path="point" />
+								<br>
+								<label>Comment:</label>
+								<form:textarea path="comment" class="form-control" />
+								<br>
+								<input type="submit" value="SAVE" class="btn btn-primary mb-2" />
 							</form:form>
 							<p class="error">${error}</p>
 							<table class="table table-striped project-orders-table">
@@ -65,7 +69,8 @@ color:red;
 								</thead>
 								<tbody>
 									<c:forEach var="member" items="${members}">
-									<c:set var="pointObject" value="${member.pointDetailForReport}" />
+										<c:set var="pointObject"
+											value="${member.pointDetailForReport}" />
 										<tr>
 											<td>${member.name}</td>
 											<td>${member.mail}</td>
@@ -78,15 +83,21 @@ color:red;
 											</c:if>
 											<td>${pointObject.point}</td>
 											<c:if test="${member.statusPoint == 0}">
-											<td><a href='<c:url value="/teacher_grade/${report.id}/${member.id}"/>'>Grade</a></td>
+												<td><a
+													href='<c:url value="/teacher_grade/${report.id}/${member.id}"/>'>Grade</a></td>
 											</c:if>
 											<c:if test="${member.statusPoint == 1}">
-											<td><a href='<c:url value="/teacher_editPoint/${report.id}/${member.id}"/>'>Edit</a></td>
+												<td><a
+													href='<c:url value="/teacher_editPoint/${report.id}/${member.id}"/>'>Edit</a></td>
 											</c:if>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
+							<a style="margin-left: 10px"
+								href='<c:url value="/teacher_viewReport"></c:url>'
+								class="btn btn-primary btn-lg"><span
+								class="glyphicon glyphicon-home"></span> Back </a>
 						</div>
 
 					</div>

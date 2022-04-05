@@ -14,7 +14,7 @@
 	<c:if test="${message!=''}">
 	
 		<script type="text/javascript">
-			var Msg = "chua có diem";
+			var Msg = "chua cï¿½ diem";
 			window.alert(Msg);
 		
 		</script>
@@ -37,17 +37,24 @@
 	<!-- ---------------------CONTENT--------------------- -->
 
 
+	<a style="margin-left: 10px"
+		href='<c:url value="/student_ViewReport"></c:url>'
+		class="btn btn-primary btn-lg"><span
+		class="glyphicon glyphicon-home"></span> Back </a>
 
 	<div class="main-panel">
+
 		<div class="content-wrapper">
-			<div class="row">
-			
-				<br> <br>
-				
-			<h1>Your Point : ${pointDetails.point}</h1>
+
+			<div class="row" style="display: flex; align-items: center;justify-content: center;">
+
+
+
+				<h1 class="list-group-item ">Your Point : ${pointDetails.point}</h1>
 
 
 			</div>
+
 		</div>
 	</div>
 	<!-- ---------------------END OF CONTENT--------------------- -->

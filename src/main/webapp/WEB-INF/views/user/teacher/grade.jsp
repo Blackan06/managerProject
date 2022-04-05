@@ -37,7 +37,7 @@
 
 
                         <div class="col-lg-12 grid-margin stretch-card">
-                            <div class="card">
+                            <div class="card" style="display: flex; align-items: center;justify-content: center;">
                                 <div class="card-body">
                                     <h1 style="text-align: center;">GRADE FOR REPORT</h1>
                                     <c:set value="${report}" var="report" />
@@ -55,7 +55,7 @@
                                             <form:errors path="point" cssClass="error" />
                                             <br>
                                             <br>
-                                            <input type="submit" />
+                                            <input type="submit" class="btn btn-primary mb-1" value="SAVE" />
                                         </form:form>
                                     </c:if>
                                     <c:if test="${editAction == true }">
@@ -69,7 +69,7 @@
                                             <form:errors path="point" cssClass="error" />
                                             <br>
                                             <br>
-                                            <input type="submit" />
+                                            <input type="submit"  />
                                         </form:form>
                                     </c:if>
                                 </div>

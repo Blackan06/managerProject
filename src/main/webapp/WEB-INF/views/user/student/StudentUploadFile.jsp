@@ -29,18 +29,40 @@
 
 	<!-- ---------------------CONTENT--------------------- -->
 
-
-
-	<div class="main-panel">
+	<div class="main-panel" >
 		<div class="content-wrapper">
-			<div class="row">
+		<a style="margin-left: 10px"
+		href='<c:url value="/student_ViewReport"></c:url>'
+		class="btn btn-primary btn-lg"><span
+		class="glyphicon glyphicon-home"></span> Back </a>
+			<div class="row" style="display: flex; align-items: center;justify-content: center;">
+			
 			<c:if test="${ not empty InforReport }">
 							<h1>Deadline to submit : ${ InforReport }</h1>
 						</c:if>
+<<<<<<< HEAD
+				<div class="col-lg-12 grid-margin stretch-card" style="display: flex; align-items: center;justify-content: center;">
+
+=======
+			
+>>>>>>> 63a45f17d796caf98af160dff3e2b3447cfcab45
+
+
+<<<<<<< HEAD
+	<div class="main-panel">
+		<div class="content-wrapper">
+			<div class="row">
+				<c:if test="${ not empty InforReport }">
+					<h1>Deadline to submit : ${ InforReport }</h1>
+				</c:if>
 				<div class="col-lg-12 grid-margin stretch-card">
 
+=======
+	
+>>>>>>> 63a45f17d796caf98af160dff3e2b3447cfcab45
 
-					<div class="col-lg-12 grid-margin stretch-card">
+
+					<div class="col-lg-12 grid-margin stretch-card" style="display: flex; align-items: center;justify-content: center;">
 						<!-- 	<h1>status upload  : ${statusupload}</h1>  
 				
 					<h1>compare Time : ${compareTime}</h1> 
@@ -48,17 +70,16 @@
 						<h1>Time now : ${TIMENOW}</h1>
 						-->
 
-						
+
 						<br />
 						<form action="${pageContext.request.contextPath}/saveReportFile"
 							method="post" style="text-align: center;"
 							enctype="multipart/form-data">
-							<input type="hidden" name="ReportId" value="${ReportId}" /> 
-							<input
+							<input type="hidden" name="ReportId" value="${ReportId}" /> <input
 								style="line-height: 1 !important" class="form-control"
 								type="file" name="file" id="formFile">
 							<button style="margin-top: 3em;" type="submit"
-								class="btn btn-secondary btn-lg">Upload</button>
+								class="btn btn-primary mb-2">Upload</button>
 						</form>
 					</div>
 
@@ -66,11 +87,12 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- ---------------------END OF CONTENT--------------------- -->
 
 	<!-- -----------------FOOTER-------------------- -->
 	<!-- -----------------END OF FOOTER-------------------- -->
-	
+
 	<!-- Script-->
 	<%@include file="/WEB-INF/views/user/student/studentscript.jsp"%>
 

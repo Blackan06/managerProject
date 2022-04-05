@@ -42,7 +42,7 @@
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">Report Detail</h4>
+							<h4 class="m-0 font-weight-bold text-primary">REPORT DETAILS</h4>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -52,7 +52,8 @@
 								</a>
 								<spring:url value="/getReport/?type=xls" var="xlsURL" />
 								<spring:url value="/getReport/?type=pdf" var="pdfURL" />
-								<a href="${xlsURL}">Dowload Exel</a> <br>
+								<a href="${xlsURL}" class="btn btn-primary">Dowload Exel</a> <br>
+								<p></p>
 								<%-- 	 <a href="${pdfURL}">Dowload PDF</a> --%>
 								<table class="table table-striped" id="dataTable" width="100%"
 									cellspacing="0">
