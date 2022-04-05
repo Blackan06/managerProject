@@ -19,67 +19,70 @@
 	</div>
 
 
-	<!-- partial -->
-	<div class="main-panel">
-		<div class="content-wrapper">
+			<!-- partial -->
+			<div class="main-panel">
+				<div class="content-wrapper">
 
 
 
 
-			<div class="row">
+					<div class="row">
 
 
-				<div class="col-lg-12 grid-margin stretch-card">
-					<div class="card">
-						<div class="card-body">
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
 
 
-							<div class="table-responsive">
+									<div class="table-responsive">
+										
 
+										<table class="table table-striped project-orders-table">
+											<thead>
+												<tr>
+													<th>Report Name</th>
 
-								<table class="table table-striped project-orders-table">
-									<thead>
-										<tr>
-											<th>Report Name</th>
+													<th>Time Submit</th>
+													<th>Download</th>													
+													<th>Group Name</th>
+													<th>Status</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach var="report" items="${reportList}">
+													<c:set var="group" value="${ report.group  }" />
+													<tr>
+														<td>${report.name }</td>
 
-											<th>Time Submit</th>
-											<th>Download</th>
-											<th>Group Name</th>
-											<th>Status</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="report" items="${reportList}">
-											<c:set var="group" value="${ report.group  }" />
-											<tr>
-												<td>${report.name }</td>
+														<td>${report.timeSubmit}</td>
+														<td><a
+															href='<c:url value="/report_stogare/${report.urlReport}"/>'
+															download>${report.urlReport}</a></td>														
+														<td>${group.name}</td>
+														<td>${report.convertedStatus}</td>
+														<td>
+															<!--khi da summit thi doi background khac  --> <c:if
+																test="${report.status > 0}">
 
-												<td>${report.timeSubmit}</td>
-												<td><a
-													href='<c:url value="/report_stogare/${report.urlReport}"/>'
-													download>${report.urlReport}</a></td>
-												<td>${group.name}</td>
-												<td>${report.convertedStatus}</td>
-												<td>
-													<!--khi da summit thi doi background khac  --> <c:if
-														test="${report.status > 0}">
+																<button>
+																	<a class="btn btn-primary" href='<c:url  value="/grading_table/${report.id}"/>' >Grade</a>
+																</button>
+															</c:if> <!--khi chua summit thi doi background khac  -->
+															 <c:if
+																test="${report.status < 1}">
+																<button disabled="disabled">
+																	<a href="" class="btn btn-primary">Grade</a>
+																</button>
+															</c:if>
+														</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
 
-														<button>
-															<a href='<c:url value="/grading_table/${report.id}"/>'>Grade</a>
-														</button>
-													</c:if> <!--khi chua summit thi doi background khac  --> <c:if
-														test="${report.status < 1}">
-														<button disabled="disabled">
-															<a href="">Grade</a>
-														</button>
-													</c:if>
-												</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-
+									</div>
+								</div>
 							</div>
 						</div>
 

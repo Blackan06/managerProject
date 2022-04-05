@@ -14,7 +14,7 @@
 	<c:if test="${message!=''}">
 	
 		<script type="text/javascript">
-			var Msg = "chua có diem";
+			var Msg = "chua cï¿½ diem";
 			window.alert(Msg);
 		
 		</script>
@@ -46,11 +46,11 @@
 
 		<div class="content-wrapper">
 
-			<div class="row">
+			<div class="row" style="display: flex; align-items: center;justify-content: center;">
 
 
 
-				<h1>Your Point : ${pointDetails.point}</h1>
+				<h1 class="list-group-item ">Your Point : ${pointDetails.point}</h1>
 
 
 			</div>
