@@ -41,7 +41,17 @@
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<h1>${ mess }</h1>
+						
+						<div class="">
+							<!-- Simple link -->
+							<span style="color: red">${ errorPoint }</span>
+
+						</div>
+						<div class="">
+							<!-- Simple link -->
+							<span style="color: red">${ errorTimeReport }</span>
+
+						</div>
 						<c:forEach var="project" items="${ listReport }">
 							<c:set var="Report" value="${ project.report }" />
 

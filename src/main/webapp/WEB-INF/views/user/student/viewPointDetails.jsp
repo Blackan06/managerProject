@@ -37,17 +37,24 @@
 	<!-- ---------------------CONTENT--------------------- -->
 
 
+	<a style="margin-left: 10px"
+		href='<c:url value="/student_ViewReport"></c:url>'
+		class="btn btn-primary btn-lg"><span
+		class="glyphicon glyphicon-home"></span> Back </a>
 
 	<div class="main-panel">
+
 		<div class="content-wrapper">
+
 			<div class="row">
-			
-				<br> <br>
-				
-			<h1>Your Point : ${pointDetails.point}</h1>
+
+
+
+				<h1>Your Point : ${pointDetails.point}</h1>
 
 
 			</div>
+
 		</div>
 	</div>
 	<!-- ---------------------END OF CONTENT--------------------- -->
