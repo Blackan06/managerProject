@@ -19,7 +19,10 @@
 	</div>
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 63a45f17d796caf98af160dff3e2b3447cfcab45
 			<!-- partial -->
 			<div class="main-panel">
 				<div class="content-wrapper">
@@ -78,6 +81,7 @@
 
 									</div>
 								</div>
+<<<<<<< HEAD
 
 	<!-- partial -->
 	<div class="main-panel">
@@ -141,6 +145,8 @@
 								</table>
 
 
+=======
+>>>>>>> 63a45f17d796caf98af160dff3e2b3447cfcab45
 							</div>
 						</div>
 
