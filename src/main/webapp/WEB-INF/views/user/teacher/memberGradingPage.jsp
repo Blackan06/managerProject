@@ -46,10 +46,12 @@ color:red;
 							<form:hidden path="name"/>
 							<form:hidden path="id"/>
 							<label>Comment:</label>
-							<form:textarea  path="comment"/>						
-							<input type="submit" value="save comment" />
+							<form:textarea  path="comment"/>
+								<label>Total Point:</label>
+							<form:input  path="point"/>				
+							<input type="submit" value="save" />
 							</form:form>
-							<p class="error">${cmtError}</p>
+							<p class="error">${error}</p>
 							<table class="table table-striped project-orders-table">
 								<thead>
 									<tr>

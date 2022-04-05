@@ -156,8 +156,8 @@ public class ReportDAO {
 	return null;
 		
 	}
-	public void saveReportComment(String cmt,int reportId) {
-		String sql = "UPDATE `report` SET `comment` = '"+cmt+"' WHERE `report`.`id` ="+reportId;
+	public void saveReportComment(String cmt,int reportId,double totalPoint) {
+		String sql = "UPDATE `report` SET `comment` = '"+cmt+"',`point` = '"+totalPoint+"' WHERE `report`.`id` ="+reportId;
 		jdbcTemplate.update(sql);
 	}
 }

@@ -60,7 +60,7 @@ public class ReportController {
 	private ReportDAO reportDAO;
 
 	@Autowired
-	
+
 	private AccountServiceImpl accountService;
 	private ModelAndView mv = new ModelAndView();
 
@@ -94,7 +94,7 @@ public class ReportController {
 		Account teacher = (Account) session.getAttribute("InforAccount");
 		ModelAndView mv = new ModelAndView();
 		List<Project> managedProject = projectSerivce.getProjectByTeacherId(teacher.getId());
-		
+
 		List<Report> reports = new ArrayList<Report>();
 		for (Project project : managedProject) {
 			List<Report> reportsTemp = reportService.getAllReportByProjecId(project.getId());
@@ -104,7 +104,7 @@ public class ReportController {
 
 			}
 		}
-		
+
 		mv.addObject("reportList", reports);
 		mv.setViewName("user/teacher/teacherReport");
 		return mv;
@@ -137,22 +137,19 @@ public class ReportController {
 			RedirectAttributes redirAttr) {
 		Account student = (Account) session.getAttribute("InforAccount");
 		PointDetail pointDetails = reportDAO.StudentGetPoint(id, student.getId());
-		
-		if (pointDetails == null) {
-				System.out.println(pointDetails);
-				mv.addObject("mess", "No score yet");
-//			redirAttr.addFlashAttribute("message","You successfully uploaded ");
-				mv.setViewName("/user/student/studentreport");
-			
-			
-		
 
-		} else if(pointDetails != null){
+		if (pointDetails == null) {
+			System.out.println(pointDetails);
+			mv.addObject("mess", "No score yet");
+//			redirAttr.addFlashAttribute("message","You successfully uploaded ");
+			mv.setViewName("/user/student/studentreport");
+
+		} else if (pointDetails != null) {
 			System.out.println(pointDetails);
 			mv.addObject("mess", "");
 			mv.setViewName("/user/student/viewPointDetails");
-			
-			mv.addObject("pointDetails", pointDetails);//Chorm dau mat tieu roi :DD
+
+			mv.addObject("pointDetails", pointDetails);// Chorm dau mat tieu roi :DD
 		}
 
 		return mv;
@@ -259,8 +256,6 @@ public class ReportController {
 		return mv;
 	}
 
-	
-
 	@RequestMapping("/upload_report/{report_id}")
 	public ModelAndView showUploadPage(@PathVariable int report_id, @ModelAttribute("message") String message,
 			HttpSession session, RedirectAttributes redirAttr) {
@@ -343,6 +338,7 @@ public class ReportController {
 		return "redirect:/upload_report/" + reportId;
 
 	}
+
 	@RequestMapping("/getReport")
 	public ModelAndView getAllReport(HttpServletRequest req, HttpServletResponse res) {
 		mv.setViewName("/admin/adminReport");
@@ -429,19 +425,27 @@ public class ReportController {
 		}
 		return mv;
 	}
+
 	@PostMapping("/saveReportComment")
-	public ModelAndView saveReportComment(@Valid @ModelAttribute("report") Report report,BindingResult theBindingResult,RedirectAttributes redirectAttributes) {	
-			if(!theBindingResult.hasFieldErrors("comment")) {
-				if(report.getComment()==null) {
-					report.setComment("");
-				}				
-				reportService.saveComment(report.getComment(), report.getId());
-			}else {
-				redirectAttributes.addFlashAttribute("cmtError", "Error must be 1-200 characters and not special characters.");
+	public ModelAndView saveReportComment(@Valid @ModelAttribute("report") Report report,
+			BindingResult theBindingResult, RedirectAttributes redirectAttributes) {
+		if (theBindingResult.hasFieldErrors("comment")) {
+			redirectAttributes.addFlashAttribute("error",
+					"Error must be 1-200 characters and not special characters.");
+
+		} else if (theBindingResult.hasFieldErrors("point")) {
+			redirectAttributes.addFlashAttribute("error",
+					"Must be number, 0-10");
+		} else {
+			if (report.getComment() == null) {
+				report.setComment("");
 			}
-			mv = new ModelAndView("redirect:/grading_table/"+report.getId());		
+			reportService.saveComment(report);
+		}
+		mv = new ModelAndView("redirect:/grading_table/" + report.getId());
 		return mv;
 	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);

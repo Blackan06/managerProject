@@ -310,6 +310,7 @@ public class GroupController {
 		}
 
 		mv.setViewName("/admin/adminEditGroup");
+		mv.addObject("error","");
 
 		mv.addObject("group4", group);
 
