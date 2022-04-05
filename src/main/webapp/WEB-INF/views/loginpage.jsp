@@ -108,11 +108,11 @@
 
 
 
-								<div class="col text-center">
+								<%-- <div class="col text-center">
 									<!-- Simple link -->
 									Do not have an account? <a
 										href='<c:url value="/dang-ky"></c:url>'>Register</a>
-								</div>
+								</div> --%>
 							</form:form>
 						</div>
 					</div>
