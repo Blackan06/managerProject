@@ -4,7 +4,14 @@
 <html lang="en">
 
 <%@include file="/WEB-INF/views/user/teacher/linkHeader.jsp"%>
-
+<head>
+<style type="text/css">
+.error{
+font-size: 12px;
+color:red;
+}
+</style>
+</head>
 <body>
 
 	<div class="header">
@@ -35,6 +42,14 @@
 							<h1 style="text-align: center;">GRADING FOR REPORT</h1>
 							<h4>Grading for report:${report.name}</h4>
 							<h4>Group:${group.name}</h4>
+							<form:form action="${pageContext.request.contextPath}/saveReportComment" method="POST" modelAttribute="report">
+							<form:hidden path="name"/>
+							<form:hidden path="id"/>
+							<label>Comment:</label>
+							<form:textarea  path="comment"/>						
+							<input type="submit" value="save comment" />
+							</form:form>
+							<p class="error">${cmtError}</p>
 							<table class="table table-striped project-orders-table">
 								<thead>
 									<tr>

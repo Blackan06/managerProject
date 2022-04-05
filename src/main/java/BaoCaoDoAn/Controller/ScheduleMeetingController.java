@@ -175,15 +175,8 @@ public class ScheduleMeetingController {
 					System.out.println("kiet1");
 					return new ModelAndView("redirect:/editScheduleMeeting?id=" + ScheduleMeeting.getId());
 				} else
-					System.out.println("id" + ScheduleMeeting.getId());
-				System.out.println("Name" + ScheduleMeeting.getName());
-				System.out.println("account id" + ScheduleMeeting.getAccount_id());
-				System.out.println("project id" + ScheduleMeeting.getProject_id());
-				System.out.println("TimeCreate" + ScheduleMeeting.getTimeMeeting());
-				System.out.println("DateSubmit" + ScheduleMeeting.getSubmitDate());
-				System.out.println("kiet2");
-				scheduleMeetingDAO.update(ScheduleMeeting);
 
+				scheduleMeetingDAO.update(ScheduleMeeting);
 				return new ModelAndView("redirect:/ScheduleMeeting");
 			}
 		}

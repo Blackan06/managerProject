@@ -162,7 +162,7 @@ public class StudentController {
 					}
 					if (checkTeacher >= 1 && account.getRole().equals("teacher")) {
 						System.out.println("test 4");
-						mv.addObject("errorTeacher", "teacher full group!");
+						mv.addObject("errorTeacher", "The group has a teacher!");
 						mv.setViewName("/admin/addAccount");
 						return mv;
 
@@ -174,7 +174,7 @@ public class StudentController {
 						return mv;
 					}
 					if (checkleader >= 1 && account.getIsLeader() == true) {
-						mv.addObject("errorleader", "leader full group!");
+						mv.addObject("errorleader", "The group has a leader!");
 						System.out.println("test 5");
 						mv.setViewName("/admin/addAccount");
 						return mv;
@@ -204,11 +204,11 @@ public class StudentController {
 					redirectAttributes.addFlashAttribute("groupExist", "group full memmember!");
 					return new ModelAndView("redirect:/editStudentAccount?id=" + account.getId());
 				}
-				if (checkTeacher >= 1 && account.getRole().equals("teacher")) {
-					mv.addObject("errorTeacher", "teacher full group!");
+				if (checkTeacher >= 1 && account.getRole().equals("teacher") && !studentDao.get(account.getId()).getRole().equals(account.getRole())) {
+					redirectAttributes.addFlashAttribute("errorTeacher", "The group has a teacher!");
 					return new ModelAndView("redirect:/editStudentAccount?id=" + account.getId());
 				}
-				if (checkStudentInGroup >= 4 && account.getRole().equals("student")) {
+				if (checkStudentInGroup >= 4 && account.getRole().equals("student") && !studentDao.get(account.getId()).getRole().equals(account.getRole())) {
 					System.out.println("test 4");
 				
 					redirectAttributes.addFlashAttribute("errorStudent", "Student full group!");
@@ -218,7 +218,7 @@ public class StudentController {
 				if (checkleader >= 1 && account.getIsLeader() == true
 						&& studentDao.get(account.getId()).getIsLeader() != account.getIsLeader()) {
 			
-					redirectAttributes.addFlashAttribute("errorleader", "leader full group!");
+					redirectAttributes.addFlashAttribute("errorleader", "The group has a leader!");
 
 					System.out.println("group " + account.getGroup_id());
 					System.out.println("test cc3 ");

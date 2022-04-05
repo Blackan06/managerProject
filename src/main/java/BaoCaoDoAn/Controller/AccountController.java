@@ -1,21 +1,12 @@
 package BaoCaoDoAn.Controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import BaoCaoDoAn.Dao.AccountDAO;
@@ -25,8 +16,6 @@ import BaoCaoDoAn.Entity.ScheduleReport;
 import BaoCaoDoAn.Service.User.IProjectService;
 import BaoCaoDoAn.Service.User.Impl.AccountServiceImpl;
 
-
-@SessionAttributes("user")
 @Controller
 public class AccountController {
 	@Autowired
@@ -40,16 +29,8 @@ public class AccountController {
 
 	private ModelAndView mv = new ModelAndView();
 
-	 @ModelAttribute("account")
-	    public Account setUpUserForm() {
-	        return new Account();
-	    }
-	
 	@RequestMapping(value = { "/", "/login" })
-	public ModelAndView Login(@CookieValue(value = "setUser", defaultValue = "") String setUser, Model model) {
-		Cookie cookie = new Cookie("setUser", setUser);
-		
-		 model.addAttribute("cookieValue", cookie);
+	public ModelAndView Login() {
 		mv.setViewName("/loginpage");
 		mv.addObject("account", new Account());
 		mv.addObject("schduleReport", new ScheduleReport());
@@ -64,99 +45,31 @@ public class AccountController {
 
 	}
 
-	
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/dang-nhap", method = RequestMethod.POST)
-	public ModelAndView Login(@ModelAttribute("account") Account account, HttpSession session,
-			 Model model, @CookieValue(value = "setUser", defaultValue = "") String setUser,
-             HttpServletResponse response, HttpServletRequest request) {
+	public ModelAndView Login(@ModelAttribute("account") Account account, HttpSession session) {
 		Account acc = accountService.CheckAccount(account);
-		
 		if (acc != null && acc.getRole().equals("student")) {
 			session.setAttribute("InforAccount", accountDao.GetUserByAccount(account));
 			mv.addObject("InforAccount", accountDao.GetUserByAccount(account));
 			mv.setViewName("/user/student");
-//			mv.addObject("statusLogin", "login success");
-			mv.addObject("statusLogin", "");
-			 setUser = account.getMail();
-			  Cookie cookie = new Cookie("setUser", setUser);
-			  cookie.setMaxAge(24 * 60 * 60);
-	           response.addCookie(cookie);
-
-	           //get all cookies
-	           Cookie[] cookies = request.getCookies();
-	           //iterate each cookie
-	           for (Cookie ck : cookies) {
-	               //display only the cookie with the name 'setUser'
-	               if (ck.getName().equals("setUser")) {
-	                   model.addAttribute("cookieValue", ck);
-	                   break;
-	               } else {
-	                   ck.setValue("");
-	                   model.addAttribute("cookieValue", ck);
-	                   break;
-	               }
-	           }
-	           model.addAttribute("message", "Login success. Welcome ");
+			mv.addObject("statusLogin", "login thanh cong");
 
 		}
 		if (acc != null && acc.getRole().equals("teacher")) {
 			mv.setViewName("/user/teacher");
 			session.setAttribute("InforAccount", accountDao.GetUserByAccount(account));
 			mv.addObject("InforAccount", accountDao.GetUserByAccount(account));
-//			mv.addObject("statusLogin", "login thanh cong");
-			mv.addObject("statusLogin", "");
-			 setUser = account.getMail();
-			  Cookie cookie = new Cookie("setUser", setUser);
-			  cookie.setMaxAge(24 * 60 * 60);
-	           response.addCookie(cookie);
+			mv.addObject("statusLogin", "login thanh cong");
 
-	           //get all cookies
-	           Cookie[] cookies = request.getCookies();
-	           //iterate each cookie
-	           for (Cookie ck : cookies) {
-	               //display only the cookie with the name 'setUser'
-	               if (ck.getName().equals("setUser")) {
-	                   model.addAttribute("cookieValue", ck);
-	                   break;
-	               } else {
-	                   ck.setValue("");
-	                   model.addAttribute("cookieValue", ck);
-	                   break;
-	               }
-	           }
-	           model.addAttribute("message", "Login success. Welcome ");
 		}
 		if (acc != null && acc.getRole().equals("admin")) {
 			mv.setViewName("/admin/admin");
-//			mv.addObject("statusLogin", "login thanh cong");
-			mv.addObject("statusLogin", "");
-			 setUser = account.getMail();
-			  Cookie cookie = new Cookie("setUser", setUser);
-			  cookie.setMaxAge(24 * 60 * 60);
-	           response.addCookie(cookie);
+			mv.addObject("statusLogin", "login thanh cong");
 
-	           //get all cookies
-	           Cookie[] cookies = request.getCookies();
-	           //iterate each cookie
-	           for (Cookie ck : cookies) {
-	               //display only the cookie with the name 'setUser'
-	               if (ck.getName().equals("setUser")) {
-	                   model.addAttribute("cookieValue", ck);
-	                   break;
-	               } else {
-	                   ck.setValue("");
-	                   model.addAttribute("cookieValue", ck);
-	                   break;
-	               }
-	           }
-	           model.addAttribute("message", "Login success. Welcome ");
 		}
 
 		else if (acc == null) {
-			acc.setMail("");
-            Cookie cookie = new Cookie("setUser", setUser);   
-            model.addAttribute("cookieValue", cookie);
-
 			mv.setViewName("/loginpage");
 			mv.addObject("statusLogin", "login failed");
 		}
@@ -169,34 +82,29 @@ public class AccountController {
 		mv.addObject("account", new Account());
 		return mv;
 	}
-	
-	@RequestMapping(value = "/dang-ky", method = RequestMethod.POST)
-	public ModelAndView DangKy(@Valid @ModelAttribute("account") Account account,BindingResult result) {
-		
-		if(result.hasErrors()) {
-			mv.setViewName("/registrationpage");
-		}
-		
-		int count = accountService.AddAccount(account);
 
-		
+	@RequestMapping(value = "/dang-ky", method = RequestMethod.POST)
+	public ModelAndView DangKy(@ModelAttribute("account") Account account) {
+
+		int count = accountService.AddAccount(account);
+		System.out.println(count);
 
 		if (count == 1) {
-			mv.addObject("statusRegister", "\r\n"
-					+ "Sign Up Success");
+			mv.addObject("statusRegister", "Ä Äƒng KÃ­ thÃ nh CÃ´ng");
 		} else if (count == 2) {
-			mv.addObject("statusRegister", "registration failed");
+			mv.addObject("statusRegister", "Ä Äƒng KÃ­ tháº¥t báº¡i");
 		}
-		
+		System.out.println("thanhcong");
 		mv.setViewName("/registrationpage");
 		return mv;
 
 	}
 
 	@RequestMapping(value = "/logout")
-	public ModelAndView LogOut() {
+	public ModelAndView LogOut(HttpSession session) {
 		mv.setViewName("/loginpage");
 		mv.addObject("statusLogin", " ");
+		session.removeAttribute("InforAccount");
 		return mv;
 	}
 

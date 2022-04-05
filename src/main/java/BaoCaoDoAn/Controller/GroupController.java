@@ -208,6 +208,8 @@ public class GroupController {
 	public ModelAndView doGetAddGroup(Model model, HttpSession session) {
 
 		mv.addObject("group4", new Group());
+		mv.addObject("error","");
+
 		mv.setViewName("/admin/adminAddGroup");
 		List<Group> nameGroupAdd = new ArrayList<Group>();
 		nameGroupAdd = groupDAO.getGroupAdmin();
@@ -230,6 +232,8 @@ public class GroupController {
 		System.out.println("GroupNameAdd " + GroupNameAdd);
 
 		if (result.hasErrors()) {
+			mv.addObject("error","Name must not empty or duplicate");
+
 			mv.setViewName("/admin/adminAddGroup");
 		} else {
 			List<Group> listGroup = new ArrayList<Group>();
@@ -261,15 +265,16 @@ public class GroupController {
 		System.out.println("count GroupName :" + countGroupName);
 
 		Object groupNameCurrent = session.getAttribute("groupNameCurrent");
-		String GroupNameCompare = groupNameCurrent.toString();
+		String GroupNameCompare = groupNameCurrent.toString().trim();
 		System.out.println("GroupNameCompare " + GroupNameCompare);
 
-		String GroupNameEdit = group.getName();
+		String GroupNameEdit = group.getName().trim();
 		System.out.println("GroupNameEdit " + GroupNameEdit);
 
 		System.out.println("-------------------------");
 		if (result.hasErrors()) {
-			mv.setViewName("/admin/adminAddGroup");
+			mv.addObject("error","Name must not empty or duplicate");
+			mv.setViewName("/admin/adminEditGroup");
 		} else {
 
 			if (countGroupName >= 1 && GroupNameCompare.equalsIgnoreCase(GroupNameEdit)) {

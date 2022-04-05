@@ -61,6 +61,10 @@
 											class="form-control mb-2 mr-sm-2" name='txtName' />
 
 										<form:errors path="name" cssClass="error" />
+										 <div class="">
+											<!-- Simple link -->
+											<span style="color: red">${ error }</span>
+										</div>
 										<br>
 										<button type="submit" class="btn btn-primary mb-2">Submit</button>
 

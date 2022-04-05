@@ -2,6 +2,7 @@ package BaoCaoDoAn.Entity;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class Group {
@@ -9,7 +10,7 @@ public class Group {
 	private int id;
 	
 
-
+	@NotNull(message = "Group name is empty")
 	@Pattern(regexp = "[A-Za-z0-9 ]{1,100}" , message = "Group name is empty")
 
 

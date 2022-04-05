@@ -16,17 +16,15 @@ public class Account {
 	
 	private int id;
 
-	@NotEmpty(message = "This is not empty")
+
 	@Length(min = 5, max = 50, message = "Only Letter is min 5 max 50")
 	private String name;
 
-	@NotEmpty(message = "This is not empty")
-	@NotBlank(message = "Gmail is not blank")
+	
 	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@fpt.edu.vn$", message = "Email must contain @fpt.edu.vn")
 	private String mail;
 
 	@NotEmpty(message = "The password is not null")
-	@NotBlank(message = "The password is not blank")
 	private String password;
 
 	private int group_id;

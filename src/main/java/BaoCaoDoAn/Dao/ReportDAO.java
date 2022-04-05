@@ -54,7 +54,7 @@ public class ReportDAO {
 	public List<Report_Project_Group> getAllReportWithProject_Group() {
 		List<Report_Project_Group> list = new ArrayList<Report_Project_Group>();
 		String sql = "SELECT  report.id ,  report.name , report.point ,  report.comment,report.timeCreate ,  project.project_name  , group_student.group_name \r\n" + 
-				"FROM `report` , `project` ,`group_student` \r\n" + 
+				"FROM report , project ,`group_student` \r\n" + 
 				"WHERE \r\n" + 
 				"report.project_id = project.id   and project.group_id = group_student.id ;";
 		list = jdbcTemplate.query(sql, new MapperReport_Project_Group());
@@ -96,8 +96,8 @@ public class ReportDAO {
 	}
 
 	public int gradeReport(PointDetail gradeReportModel) {
-		String sql = "INSERT INTO `pointdetail` "
-				+ "(`report_id`, `student_id`, `teacher_id`, `pointing_date`, `point`) " + "VALUES (?, ?, ?, ?,?);";
+		String sql = "INSERT INTO pointdetail "
+				+ "(report_id, student_id, teacher_id, pointing_date, point) " + "VALUES (?, ?, ?, ?,?);";
 		int result = jdbcTemplate.update(sql,
 				new Object[] { gradeReportModel.getReportId(), gradeReportModel.getStudentId(),
 						gradeReportModel.getTeacherId(), new Date(), gradeReportModel.getPoint() });
@@ -105,13 +105,13 @@ public class ReportDAO {
 	}
 
 	public void saveFileReportFile(String fileName, Integer reportId) {
-		String sql = "UPDATE `baocaodoan`.`report` SET `urlReport` = ?, `status` = '1'  WHERE (`id` = ?);";
+		String sql = "UPDATE baocaodoan.`report` SET urlReport = ?, status = '1'  WHERE (id = ?);";
 		jdbcTemplate.update(sql, new Object[] { fileName, reportId });
 	}
 
 	public List<Report> getTimeSubmitReport(int group_id, int porject_id) {
 		List<Report> list = new ArrayList<Report>();
-		String sql = "UPDATE `pointdetail` SET `student_id` = ?, `teacher_id` = ?, `pointing_date` = ?, `point` = ? WHERE (`id` = ?);"
+		String sql = "UPDATE pointdetail SET student_id = ?, teacher_id = ?, pointing_date = ?, point = ? WHERE (id = ?);"
 				+ " and p.id = " + porject_id + " ";
 		list = jdbcTemplate.query(sql, new MapperReport());
 		return list;
@@ -128,22 +128,22 @@ public class ReportDAO {
 	}
 
 	public boolean addPointDetail(PointDetail poinDetail) {
-		String sql = "INSERT INTO `pointdetail` "
-				+ "(`report_id`, `student_id`, `teacher_id`, `pointing_date`, `point`) " + "VALUES (?, ?,?,?,?);";
+		String sql = "INSERT INTO pointdetail "
+				+ "(report_id, student_id, teacher_id, pointing_date, point) " + "VALUES (?, ?,?,?,?);";
 		jdbcTemplate.update(sql, new Object[] { poinDetail.getReportId(), poinDetail.getStudentId(),
 				poinDetail.getTeacherId(), new Date(), poinDetail.getPoint() });
 		return true;
 	}
 
 	public boolean editPoint(PointDetail pointDetail) {
-		String sql = "UPDATE `baocaodoan`.`pointdetail` SET `point` = ? WHERE (`id` = ?);";
+		String sql = "UPDATE baocaodoan.`pointdetail` SET point = ? WHERE (id = ?);";
 		jdbcTemplate.update(sql, new Object[] { pointDetail.getPoint(), pointDetail.getId() });
 		return true;
 	}
 	public PointDetail StudentGetPoint(int idreport , int idStudent){
 		try {
 		PointDetail pointDetails = new PointDetail() ;
-		String query = "SELECT * FROM `pointdetail` WHERE report_id = "+idreport+" and student_id = "+idStudent+ " " ;
+		String query = "SELECT * FROM pointdetail WHERE report_id = "+idreport+" and student_id = "+idStudent+ " " ;
 		pointDetails = jdbcTemplate.queryForObject(query, new PointDetailMapper());
 		
 		if (pointDetails != null) {
@@ -155,5 +155,9 @@ public class ReportDAO {
 	}
 	return null;
 		
+	}
+	public void saveReportComment(String cmt,int reportId) {
+		String sql = "UPDATE `report` SET `comment` = '"+cmt+"' WHERE `report`.`id` ="+reportId;
+		jdbcTemplate.update(sql);
 	}
 }
